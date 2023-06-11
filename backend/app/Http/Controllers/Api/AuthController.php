@@ -81,10 +81,10 @@ class AuthController extends Controller
                 ], 401);
             }
 
-            if (! Auth::attempt($request->only(['email', 'password']))) {
+            if (!Auth::attempt($request->only(['email', 'password']))) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'Email & Password does not match with our record.',
+                    'message' => 'Email & Password do not match with our records.',
                 ], 401);
             }
 
@@ -94,6 +94,7 @@ class AuthController extends Controller
                 'status' => true,
                 'message' => 'User Logged In Successfully',
                 'token' => $user->createToken('API TOKEN')->plainTextToken,
+                'role' => $user->role, // Include the role in the response
             ], 200)->withCookie(Cookie::make('XSRF-TOKEN', $request->session()->token()));
         } catch (\Throwable $th) {
             return response()->json([
