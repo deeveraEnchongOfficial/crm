@@ -5,7 +5,7 @@ definePageMeta({
 });
 const { errorBag , userAuthToken } = useUserAuth();
 const headers = { Authorization: `Bearer ${userAuthToken}`}
-const { $upsale } = useNuxtApp();
+const { $prodash } = useNuxtApp();
 const { params } = useRoute();
 const pending = ref(false);
 const success = ref('');
@@ -23,7 +23,7 @@ const data = ref({
 const handleEditInquiry = async () => {
     pending.value = true;
         try{
-        const response = await $upsale.put(`/api/inquiries/${params.id}`,
+        const response = await $prodash.put(`/api/inquiries/${params.id}`,
     {
       name: data.value.name,
       email: data.value.email,

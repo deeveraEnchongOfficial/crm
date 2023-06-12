@@ -3,8 +3,8 @@ export default defineNuxtConfig({
     ssr: false,
     runtimeConfig: {
         public: {
-            upsale: { 
-                api_base_url: process.env.NUXT_UPSALE_API_BASE_URL || '',
+            prodash: { 
+                api_base_url: process.env.NUXT_PRODASH_API_BASE_URL || '',
             }
         },
     },

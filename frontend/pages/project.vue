@@ -2,11 +2,11 @@
 definePageMeta({
   middleware: 'auth'
 })
-// const { $upsale } = useNuxtApp()
+// const { $prodash } = useNuxtApp()
 
 // const fetchData = async () => {
 //   try {
-//     const response = await $upsale.get("https://outsoar.ph/api/projects");
+//     const response = await $prodash.get("https://outsoar.ph/api/projects");
 //     return response.data;
 //   } catch (error) {
 //     // console.error(error);

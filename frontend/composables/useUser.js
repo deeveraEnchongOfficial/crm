@@ -1,6 +1,6 @@
 import { useUserAuth } from '~/stores/userAuth'
 export default async function useUser(path) {
-  const { $upsale } = useNuxtApp()
+  const { $prodash } = useNuxtApp()
   const { userAuthToken  } = useUserAuth();
   const userLoggedIn = reactive({
     user: null,
@@ -10,7 +10,7 @@ export default async function useUser(path) {
   const user = async () => {
     const token = userAuthToken;
     try {
-      const response = await $upsale.get('/api/user', {
+      const response = await $prodash.get('/api/user', {
         headers: {
           Authorization: `Bearer ${token}`
         }
