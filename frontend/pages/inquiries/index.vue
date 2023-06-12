@@ -6,7 +6,7 @@ definePageMeta({
 
 const { userAuthToken } = useUserAuth()
 const headers = { Authorization: `Bearer ${userAuthToken}`}
-const { $upsale } = useNuxtApp()
+const { $prodash } = useNuxtApp()
 const limit = ref(10);
 const currentPage = ref(1);
 const inquiries = ref([])
@@ -31,7 +31,7 @@ const updatePage = (newValue) => {
 const fetchData = async () => {
   isLoading.value = true
   try {
-    const response = await $upsale.get('/api/inquiries', {
+    const response = await $prodash.get('/api/inquiries', {
       params: {
         page: currentPage.value,
         perPage: limit.value,
@@ -51,14 +51,14 @@ const fetchData = async () => {
 const addContact = async (inquiryId) => {
   addLoader.value = true
   try {
-    const { data } = await $upsale.get(`/api/inquiries/${inquiryId}`, { headers });
+    const { data } = await $prodash.get(`/api/inquiries/${inquiryId}`, { headers });
     const newContact = {
       name: data.name,
       email: data.email,
       telephone: data.telephone,
       mobile: data.mobile
     }
-    const addContactResponse = await $upsale.post('/api/contacts', newContact , { headers });
+    const addContactResponse = await $prodash.post('/api/contacts', newContact , { headers });
     addContactMessage.value = {
       message: addContactResponse.data.message,
       type: 'success'
@@ -76,7 +76,7 @@ const addContact = async (inquiryId) => {
 
 const deleteInquiry = async (id) => {
   if (confirm('Are you sure you want to delete this inquiry?')) {
-      const response = await $upsale.delete('/api/inquiries/'+ id , { headers });
+      const response = await $prodash.delete('/api/inquiries/'+ id , { headers });
       deleteInquiryMessage.value = response.data;
       fetchData();
       return response.data;

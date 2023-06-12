@@ -5,8 +5,8 @@ export default defineNuxtPlugin((NuxtApp) => {
     const { public: config } = useRuntimeConfig()
     return {
         provide: {
-            upsale: axios.create({
-                baseURL: config.upsale.api_base_url,
+            prodash: axios.create({
+                baseURL: config.prodash.api_base_url,
                 common: {
                     Accept: 'application/json;q=0.9,text/plain',
                 },

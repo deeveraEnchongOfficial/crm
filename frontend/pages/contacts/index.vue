@@ -6,7 +6,7 @@ definePageMeta({
 
 const { userAuthToken } = useUserAuth()
 const headers = { Authorization: `Bearer ${userAuthToken}`}
-const { $upsale } = useNuxtApp()
+const { $prodash } = useNuxtApp()
 const limit = ref(10);
 const currentPage = ref(1);
 const contacts = ref([])
@@ -28,7 +28,7 @@ const fetchData = async () => {
   isLoading.value = true
   const token = userAuthToken;
   try {
-    const response = await $upsale.get('/api/contacts', {
+    const response = await $prodash.get('/api/contacts', {
       params: {
         page: currentPage.value,
         perPage: limit.value,
@@ -49,7 +49,7 @@ const deleteContact = async (id) => {
   if (confirm('Are you sure to delete this contact?')) {
     isLoading.value = true
     try{
-      const response = await $upsale.delete('/api/contacts/'+ id , { headers });
+      const response = await $prodash.delete('/api/contacts/'+ id , { headers });
       deleteResponse.value = response.data
       fetchData();
       return response.data;

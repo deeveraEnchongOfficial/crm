@@ -63,7 +63,7 @@ watch(() => route.path, () => {
                 <button class="align-middle focus:shadow-outline-purple focus:outline-none">
                     <atom-logo />
                     </button>
-                upSale
+                ProDash
             </nuxt-link>
             <ul class="mt-6">
                 <h4

@@ -1,5 +1,5 @@
 <script setup>
-const { $upsale } = useNuxtApp()
+const { $prodash } = useNuxtApp()
 const router = useRouter();
 const isToggled = ref(true)
 const handleToggle = (newValue) => {

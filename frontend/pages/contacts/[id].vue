@@ -4,14 +4,14 @@ definePageMeta({
   middleware: 'auth'
 })
 const {  userAuthToken } = useUserAuth();
-const { $upsale } = useNuxtApp()
+const { $prodash } = useNuxtApp()
 const { params } = useRoute();
 const contacts = ref([])
 const headers = { Authorization: `Bearer ${userAuthToken}`}
 
 const fetchData = async () => {
   try {
-    const response = await $upsale.get(`/api/contacts/${params.id}`, { headers });
+    const response = await $prodash.get(`/api/contacts/${params.id}`, { headers });
     contacts.value = response.data.data
     return response.data;
   } catch (error) {

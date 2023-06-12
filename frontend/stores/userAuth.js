@@ -3,19 +3,19 @@ import { useStorage } from "@vueuse/core";
 
 export const useUserAuth = defineStore("userAuth", () => {
   const router = useRouter();
-  const { $upsale } = useNuxtApp();
+  const { $prodash } = useNuxtApp();
 
   const errorBag = reactive({ message: "", status: false, errors: [] });
 
   const userAuthToken = ref(useStorage("userAuthToken", null));
 
   const getCookie = async () => {
-    await $upsale.get("/sanctum/csrf-cookie");
+    await $prodash.get("/sanctum/csrf-cookie");
   };
 
   const login = async (data) => {
     try {
-      const res = await $upsale.post("/api/auth/login", {
+      const res = await $prodash.post("/api/auth/login", {
         email: data.email,
         password: data.password,
       });
@@ -35,7 +35,7 @@ export const useUserAuth = defineStore("userAuth", () => {
     const token = userAuthToken;
     console.log('token', token.value);
     try {
-      const response = await $upsale.post('/api/auth/logout', {}, {
+      const response = await $prodash.post('/api/auth/logout', {}, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token.value}`

@@ -6,7 +6,7 @@
     <slot name="logo">
       <img
         id="logo"
-        src="~/assets/images/upsale.png"
+        src="~/assets/images/prodash.png"
         width="32px"
         height="32px"
         class="object-cover w-8 h-8 rounded-full"
