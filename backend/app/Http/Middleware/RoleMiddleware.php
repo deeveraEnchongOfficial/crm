@@ -4,6 +4,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class RoleMiddleware
 {
@@ -16,9 +18,9 @@ class RoleMiddleware
      */
     public function handle($request, Closure $next, ...$roles)
     {
-        $user = $request->user();
+        $user = Auth::user();
 
-        if (!$user || !$user->isAdmin()) {
+        if (!$user || !$user->hasAnyRole($roles)) {
             abort(403, 'Unauthorized');
         }
 

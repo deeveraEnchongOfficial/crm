@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ContactsController;
 use App\Http\Controllers\Api\InquiriesController;
 use Illuminate\Support\Facades\Route;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,12 +31,13 @@ Route::get('/user', [AuthController::class, 'getCurrentUser'])->middleware('auth
 // Route::apiResource('/inquiries', InquiriesController::class);
 
 
-Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
+Route::middleware(['auth:sanctum', 'role:' . User::ROLE_ADMIN])->group(function () {
     // Admin routes
     Route::apiResource('/inquiries', InquiriesController::class);
     Route::apiResource('/contacts', ContactsController::class);
 });
 
-Route::middleware(['auth:sanctum', 'role:editor,author'])->group(function () {
+Route::middleware(['auth:sanctum', 'role:' . User::ROLE_USER])->group(function () {
     // Editor and Author routes
+    // Route::apiResource('/contacts', ContactsController::class);
 });
