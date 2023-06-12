@@ -116,7 +116,8 @@ class AuthController extends Controller
             $user = $request->user();
 
             // Revoke the current user's token
-            $request->user()->currentAccessToken()->delete();
+            $request->user()->tokens()->delete();
+            // $request->user()->currentAccessToken()->delete();
 
             return response()->json([
                 'status' => true,
