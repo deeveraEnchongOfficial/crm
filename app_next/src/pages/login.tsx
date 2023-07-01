@@ -13,7 +13,7 @@ export default function Login() {
     // Check if user is already authenticated
     const token = localStorage.getItem('token');
     if (token) {
-      router.replace('/dashboard'); // Redirect to dashboard if authenticated
+      router.replace('/'); // Redirect to dashboard if authenticated
     }
   }, [router]);
 

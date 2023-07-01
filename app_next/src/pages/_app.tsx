@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { AppProps } from 'next/app';
 import { getToken } from '../../utils/auth';
-import Layout from '../../components/Layout';
+import DefaultLayout from '../../layout/DefaultLayout';
 import '../../styles/tailwind.css'
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -17,9 +17,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <Layout show={layout}>
+    <DefaultLayout show={layout}>
       <Component {...pageProps} />
-    </Layout>
+    </DefaultLayout>
   );
 }
 
