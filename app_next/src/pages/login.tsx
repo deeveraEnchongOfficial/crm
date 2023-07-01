@@ -1,7 +1,6 @@
-import { useState } from 'react';
-// import axios from 'axios';
-import appNext from '../../axiosConfig';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { login } from '../../utils/auth';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -10,13 +9,20 @@ export default function Login() {
 
   const router = useRouter();
 
-  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    // Check if user is already authenticated
+    const token = localStorage.getItem('token');
+    if (token) {
+      router.replace('/dashboard'); // Redirect to dashboard if authenticated
+    }
+  }, [router]);
+
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      const response = await appNext.post(`/api/auth/login`, { email, password });
-      // Handle successful login
-      router.push('/dashboard'); // Replace '/dashboard' with your desired route
-    } catch (error) {
+    const token = await login(email, password);
+    if (token) {
+      router.push('/dashboard'); // Redirect to the dashboard page
+    } else {
       setError('Invalid email or password');
     }
   };
