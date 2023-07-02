@@ -13,20 +13,6 @@ const DefaultLayout: React.FC<LayoutProps> = ({ show, children }) => {
   if (show) {
     // Render layout when show is true
     return (
-      // <div>
-      //   {/* Header */}
-      //   <header>
-      //     <h1 className="mb-8 text-4xl font-bold">Header</h1>
-      //   </header>
-
-      //   {/* Main content */}
-      //   <main>{children}</main>
-
-      //   {/* Footer */}
-      //   <footer>
-      //     {/* Your footer content goes here */}
-      //   </footer>
-      // </div>
       <div className="dark:bg-boxdark-2 dark:text-bodydark">
       {/* <!-- ===== Page Wrapper Start ===== --> */}
       <div className="flex h-screen overflow-hidden">
@@ -41,9 +27,9 @@ const DefaultLayout: React.FC<LayoutProps> = ({ show, children }) => {
           {/* <!-- ===== Header End ===== --> */}
 
           {/* <!-- ===== Main Content Start ===== --> */}
-          <main>
+          <main className="">
             <div className="p-4 mx-auto max-w-screen-2xl md:p-6 2xl:p-10">
-              <main>{children}</main>
+             {children}
             </div>
           </main>
           {/* <!-- ===== Main Content End ===== --> */}
