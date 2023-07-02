@@ -1,13 +1,33 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-
+import Image from 'next/image';
+import { getUser } from '../../utils/useUser';
 import UserOne from '../images/user/user-01.png';
 
 const DropdownUser = () => {
+
+  interface User {
+    name: string;
+    role: number;
+    image: Blob;
+    // Other properties
+  }
+
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [user, setUser] = useState<User | undefined>(undefined);
 
   const trigger = useRef<any>(null);
   const dropdown = useRef<any>(null);
+
+  useEffect(() => {
+    getUser()
+    .then((data) => {
+      setUser(data.user);
+    })
+    .catch((error) => {
+      console.error('Failed to get User:', error);
+    });
+  }, []);
 
   // close on click outside
   useEffect(() => {
@@ -45,13 +65,13 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            Enchong
+            {user?.name}
           </span>
-          <span className="block text-xs">UX Designer</span>
+          <span className="block text-xs">{user?.role}</span>
         </span>
 
         <span className="w-12 h-12 rounded-full">
-          <img src={UserOne} alt="User" />
+          <Image src={`data:image/png;base64,${user?.image}`} height={200} width={200} alt="User" />
         </span>
 
         <svg

@@ -1,11 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { login, getToken } from '../../utils/auth';
+import { getToken } from '../../utils/auth';
+import CardFour from '../components/CardFour';
+import CardOne from '../components/CardOne';
+import CardThree from '../components/CardThree';
+import CardTwo from '../components/CardTwo';
+import ChartOne from '../components/ChartOne';
+// import ChartThree from '../components/ChartThree';
+// import ChartTwo from '../components/ChartTwo';
+// import ChatCard from '../components/ChatCard';
+// import MapOne from '../components/MapOne';
+// import TableOne from '../components/TableOne';
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
 
   const router = useRouter();
 
@@ -16,19 +23,25 @@ export default function Login() {
     }
   }, []);
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const token = await login(email, password);
-    if (token) {
-      router.push('/dashboard'); // Redirect to the dashboard page
-    } else {
-      setError('Invalid email or password');
-    }
-  };
-
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <h1 className="mb-8 text-4xl font-bold">DashBoard</h1>
-    </div>
+    <>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
+        <CardOne />
+        <CardTwo />
+        <CardThree />
+        <CardFour />
+      </div>
+
+      <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
+        <ChartOne />
+        {/* <ChartTwo />
+        <ChartThree />
+        <MapOne /> */}
+        <div className="col-span-12 xl:col-span-8">
+          {/* <TableOne /> */}
+        </div>
+        {/* <ChatCard /> */}
+      </div>
+    </>
   );
 }
