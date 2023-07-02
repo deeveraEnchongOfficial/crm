@@ -9,6 +9,7 @@ const DropdownUser = () => {
   interface User {
     name: string;
     role: number;
+    image: Blob;
     // Other properties
   }
 
@@ -70,7 +71,7 @@ const DropdownUser = () => {
         </span>
 
         <span className="w-12 h-12 rounded-full">
-          <Image src={UserOne} alt="User" />
+          <Image src={`data:image/png;base64,${user?.image}`} height={200} width={200} alt="User" />
         </span>
 
         <svg
