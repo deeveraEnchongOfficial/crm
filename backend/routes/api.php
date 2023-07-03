@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ContactsController;
 use App\Http\Controllers\Api\InquiriesController;
+use App\Http\Controllers\Api\InventoryController;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
 
@@ -35,6 +36,7 @@ Route::middleware(['auth:sanctum', 'role:' . User::ROLE_ADMIN])->group(function 
     // Admin routes
     Route::apiResource('/inquiries', InquiriesController::class);
     Route::apiResource('/contacts', ContactsController::class);
+    Route::resource('/inventories', InventoryController::class);
 });
 
 Route::middleware(['auth:sanctum', 'role:' . User::ROLE_USER])->group(function () {
