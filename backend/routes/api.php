@@ -37,6 +37,9 @@ Route::middleware(['auth:sanctum', 'role:' . User::ROLE_ADMIN])->group(function 
     Route::apiResource('/inquiries', InquiriesController::class);
     Route::apiResource('/contacts', ContactsController::class);
     Route::resource('/inventories', InventoryController::class);
+    Route::post('/inventories/purchase', [InventoryController::class, 'purchase']);
+    // Route::resource('/purchased', PurchasedController::class);
+    // Route::post('/purchased/process', [PurchasedController::class, 'process']);
 });
 
 Route::middleware(['auth:sanctum', 'role:' . User::ROLE_USER])->group(function () {

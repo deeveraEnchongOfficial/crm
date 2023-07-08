@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Inventory;
 use App\Http\Requests\CreateInventoryRequest;
 
@@ -89,5 +90,64 @@ class InventoryController extends Controller
         return response()->json([
             'message' => 'Inventory deleted successfully.',
         ]);
+    }
+
+    public function purchase(Request $request)
+    {
+
+        $user = Auth::user();
+
+        // sample payload
+        // {
+        //     "purchases": [
+        //       {
+        //         "product_id": 1,
+        //         "quantity": 2
+        //       },
+        //       {
+        //         "product_id": 2,
+        //         "quantity": 3
+        //       }
+        //     ]
+        // }
+
+        $purchases = $request->input('purchases');
+
+        foreach ($purchases as $purchase) {
+            $inventoryId = $purchase['inventory_id'];
+            $quantityPurchased = $purchase['quantity'];
+
+            $inventory = Inventory::find($inventoryId);
+
+            if (!$inventory) {
+                return response()->json(['error' => 'Inventory not found'], 404);
+            }
+
+            if ($inventory->quantity < $quantityPurchased) {
+                return response()->json(['error' => 'Insufficient quantity for inventory ID: ' . $inventoryId], 400);
+            }
+
+            $inventory->quantity -= $quantityPurchased;
+            $inventory->price -= ($quantityPurchased * $inventory->unit_price);
+
+            $inventory->save();
+
+            // // Call the function on the PurchasedController
+            // $purchasedController = new PurchasedController();
+            // dd($purchasedController);
+            // $purchasedController->processPurchasedItems();
+            // Save the purchased item to the "Purchased" table
+            // $total = $quantityPurchased * $inventory->unit_price;
+
+            // $purchased = new Purchased();
+            // $purchased->user_id = $user->id;
+            // $purchased->inventory_id = $inventoryId;
+            // $purchased->quantity = $quantityPurchased;
+            // $purchased->total = $total;
+            // $purchased->save();
+
+        }
+
+        return response()->json(['message' => 'Inventory quantities and prices deducted successfully']);
     }
 }

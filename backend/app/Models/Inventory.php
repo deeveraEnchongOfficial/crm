@@ -9,17 +9,5 @@ class Inventory extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'item_name',
-        'price',
-        'currency',
-        'quantity',
-        'unit',
-        'vendor_supplier',
-        'type',
-        'code',
-        'category',
-        'location',
-        'description',
-    ];
+    protected $guarded = ['id'];
 }

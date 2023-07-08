@@ -13,11 +13,6 @@ class Contact extends Model
         'updated_at' => 'datetime:d/m/Y H:i:s',
     ];
 
-    protected $fillable = [
-        'name',
-        'email',
-        'telephone',
-        'mobile',
-    ];
-    
+    protected $guarded = ['id'];
+
 }
