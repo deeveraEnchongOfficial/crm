@@ -1,34 +1,40 @@
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { AppProps } from 'next/app';
-import { getToken } from '../../utils/auth';
-import DefaultLayout from '../../layout/DefaultLayout';
-import '../../styles/tailwind.css';
-import Loader from '../common/Loader';
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import { AppProps } from "next/app";
+import { getToken } from "../../utils/auth";
+import DefaultLayout from "../../layout/DefaultLayout";
+import "../../styles/tailwind.css";
+import Loader from "../common/Loader";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
-  const [layout, setLayout] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [layout, setLayout] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  const currentRoute = router.pathname;
 
   useEffect(() => {
-    const token = getToken();
-    
-    setTimeout(() => setLoading(false), 1000);
+    const fetchToken = async () => {
+      setLoading(true); // Set the loading state to true
 
-    if (token) {
-      setLayout(true);
-    }
-  }, []);
+      const token = await getToken();
+
+      if (token) {
+        setLayout(true);
+      }
+
+      setLoading(false); // Set the loading state back to false
+    };
+
+    fetchToken();
+  }, [currentRoute]);
 
   return loading ? (
     <Loader />
-    ) : (
-    <>
-      <DefaultLayout show={layout}>
-        <Component {...pageProps} />
-      </DefaultLayout>
-    </>
+  ) : (
+    <DefaultLayout show={layout}>
+      <Component {...pageProps} />
+    </DefaultLayout>
   );
 }
 

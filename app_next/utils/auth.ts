@@ -18,5 +18,8 @@ export const logout = (): void => {
 };
 
 export const getToken = (): string | null => {
-  return localStorage.getItem('token');
+  if (typeof localStorage !== 'undefined') {
+    return localStorage.getItem('token');
+  }
+  return null;
 };

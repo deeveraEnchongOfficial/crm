@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
-import { login } from "../../utils/auth";
+import { login } from "../../../utils/auth";
 import LogoDark from "../images/logo/logo-dark.svg";
 import Logo from "../images/logo/logo.svg";
 
@@ -25,7 +25,7 @@ export default function Login() {
     e.preventDefault();
     const token = await login(email, password);
     if (token) {
-      router.push("/dashboard"); // Redirect to the dashboard page
+      router.push("/"); // Redirect to the dashboard page
     } else {
       setError("Invalid email or password");
     }
