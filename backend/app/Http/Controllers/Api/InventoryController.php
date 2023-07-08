@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Inventory;
 use App\Http\Requests\CreateInventoryRequest;
+use App\Models\Purchased;
 
 class InventoryController extends Controller
 {
@@ -72,7 +73,6 @@ class InventoryController extends Controller
             'inventory' => $inventory,
             'message' => 'Inventory updated successfully.',
         ]);
-
     }
 
     /**
@@ -92,26 +92,26 @@ class InventoryController extends Controller
         ]);
     }
 
-    public function purchase(Request $request)
+    public function purchase(Request $request, PurchasedController $purchasedController)
     {
-
-        $user = Auth::user();
 
         // sample payload
         // {
         //     "purchases": [
-        //       {
-        //         "product_id": 1,
-        //         "quantity": 2
-        //       },
-        //       {
-        //         "product_id": 2,
-        //         "quantity": 3
-        //       }
+        //         {
+        //             "inventory_id": 1,
+        //             "quantity": 2
+        //         },
+        //         {
+        //             "inventory_id": 2,
+        //             "quantity": 3
+        //         }
         //     ]
         // }
 
+        $user = Auth::user();
         $purchases = $request->input('purchases');
+        $purchaseTotals = [];
 
         foreach ($purchases as $purchase) {
             $inventoryId = $purchase['inventory_id'];
@@ -129,25 +129,22 @@ class InventoryController extends Controller
 
             $inventory->quantity -= $quantityPurchased;
             $inventory->price -= ($quantityPurchased * $inventory->unit_price);
-
             $inventory->save();
 
-            // // Call the function on the PurchasedController
-            // $purchasedController = new PurchasedController();
-            // dd($purchasedController);
-            // $purchasedController->processPurchasedItems();
-            // Save the purchased item to the "Purchased" table
-            // $total = $quantityPurchased * $inventory->unit_price;
+            $total = $quantityPurchased * $inventory->price;
 
-            // $purchased = new Purchased();
-            // $purchased->user_id = $user->id;
-            // $purchased->inventory_id = $inventoryId;
-            // $purchased->quantity = $quantityPurchased;
-            // $purchased->total = $total;
-            // $purchased->save();
+            $result = $purchasedController->processPurchasedItems($user, $inventoryId, $quantityPurchased, $total);
 
+            if (!$result) {
+                return response()->json(['error' => 'Failed to process purchased item'], 400);
+            }
+
+            $purchaseTotals[] = $result;
         }
 
-        return response()->json(['message' => 'Inventory quantities and prices deducted successfully']);
+        return response()->json([
+            'message' => 'Inventory quantities and prices deducted successfully',
+            'purchase_totals' => $purchaseTotals,
+        ]);
     }
 }
