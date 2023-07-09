@@ -1,10 +1,22 @@
-import { useState, useEffect } from "react";
+import { Suspense, lazy, useEffect, useState } from 'react';
 import { useRouter } from "next/router";
 import { AppProps } from "next/app";
 import { getToken } from "../../utils/auth";
 import DefaultLayout from "../../layout/DefaultLayout";
 import "../../styles/tailwind.css";
 import Loader from "../common/Loader";
+
+// const Calendar = lazy(() => import('../'));
+// const Chart = lazy(() => import('./pages/Chart'));
+// const FormElements = lazy(() => import('./pages/Form/FormElements'));
+// const FormLayout = lazy(() => import('./pages/Form/FormLayout'));
+// const Profile = lazy(() => import('./pages/Profile'));
+// const Settings = lazy(() => import('./pages/Settings'));
+// const Tables = lazy(() => import('./pages/Tables'));
+// const Alerts = lazy(() => import('./pages/UiElements/Alerts'));
+// const Buttons = lazy(() => import('./pages/UiElements/Buttons'));
+// const DefaultLayout = lazy(() => import('./layout/DefaultLayout'));
+
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
