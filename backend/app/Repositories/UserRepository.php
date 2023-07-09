@@ -7,9 +7,9 @@ use App\Models\User;
 class UserRepository
 {
     public function findByEmail($email)
-        {
-            return User::where('email', $email)->first();
-        }
+    {
+        return User::where('email', $email)->first();
+    }
 
     public function create(array $data)
     {
@@ -18,7 +18,9 @@ class UserRepository
 
     public function update(User $user, array $data)
     {
-        $user->update($data);
+        $user->fill($data);
+        $user->save();
+
         return $user;
     }
 

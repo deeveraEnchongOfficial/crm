@@ -143,4 +143,59 @@ class AuthController extends Controller
             ], 401);
         }
     }
+
+    public function updateUser(Request $request)
+    {
+        try {
+            // Validate the request data
+            $validator = Validator::make($request->all(), [
+                'name' => 'required',
+                'email' => 'required|email|unique:users,email,' . $request->user()->id,
+                'role' => 'nullable|numeric',
+                'password' => 'nullable',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validation error',
+                    'errors' => $validator->errors(),
+                ], 401);
+            }
+
+            $user = $request->user();
+
+            $data = [
+                'name' => $request->input('name'),
+                'email' => $request->input('email'),
+            ];
+
+            if ($request->filled('role')) {
+                $data['role'] = $request->input('role');
+            }
+
+            if ($request->filled('password')) {
+                $data['password'] = Hash::make($request->input('password'));
+            }
+
+            if ($request->hasFile('image')) {
+                $file = $request->file('image');
+                $data['image'] = $file->get();
+            }
+
+            $updatedUser = $this->userRepository->update($user, $data);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'User Updated Successfully',
+                'user' => $updatedUser,
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+            ], 500);
+        }
+    }
 }
