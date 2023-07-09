@@ -22,6 +22,7 @@ Route::post('/auth/register', [AuthController::class, 'createUser']);
 Route::post('/auth/login', [AuthController::class, 'loginUser']);
 Route::post('/auth/logout', [AuthController::class, 'logoutUser'])->middleware('auth:sanctum');
 Route::get('/user', [AuthController::class, 'getCurrentUser'])->middleware('auth:sanctum');
+Route::post('/user/update', [AuthController::class, 'updateUser'])->middleware('auth:sanctum');
 
 // Route::middleware('auth:sanctum')->group(function () {
 //     Route::apiResource('/inquiries', InquiriesController::class);
