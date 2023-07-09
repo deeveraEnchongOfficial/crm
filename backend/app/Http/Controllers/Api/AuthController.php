@@ -9,9 +9,18 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Repositories\UserRepository;
 
 class AuthController extends Controller
 {
+
+    private $userRepository;
+
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
     /**
      * Create User
      *
@@ -38,11 +47,13 @@ class AuthController extends Controller
                 ], 401);
             }
 
-            $user = User::create([
+            $data = [
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-            ]);
+            ];
+
+            $user = $this->userRepository->create($data);
 
             return response()->json([
                 'status' => true,
@@ -65,30 +76,16 @@ class AuthController extends Controller
     public function loginUser(Request $request)
     {
         try {
-            $validateUser = Validator::make(
-                $request->all(),
-                [
-                    'email' => 'required|email',
-                    'password' => 'required',
-                ]
-            );
+            $credentials = $request->only(['email', 'password']);
 
-            if ($validateUser->fails()) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'validation error',
-                    'errors' => $validateUser->errors(),
-                ], 401);
-            }
-
-            if (!Auth::attempt($request->only(['email', 'password']))) {
+            if (!Auth::attempt($credentials)) {
                 return response()->json([
                     'status' => false,
                     'message' => 'Email & Password do not match with our records.',
                 ], 401);
             }
 
-            $user = User::where('email', $request->email)->first();
+            $user = $this->userRepository->findByEmail($request->email);
 
             return response()->json([
                 'status' => true,
@@ -116,8 +113,7 @@ class AuthController extends Controller
             $user = $request->user();
 
             // Revoke the current user's token
-            $request->user()->tokens()->delete();
-            // $request->user()->currentAccessToken()->delete();
+            $this->userRepository->revokeTokens($user);
 
             return response()->json([
                 'status' => true,
