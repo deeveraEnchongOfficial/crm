@@ -13,13 +13,20 @@ export const login = async (email: string, password: string): Promise<string | n
   }
 };
 
-export const logout = (): void => {
-  localStorage.removeItem('token');
+export const logout = async (): Promise<any>=> {
+  const token = getToken();
+  try{
+    await appNext.post('api/auth/logout', {}, {
+      headers:{
+        Authorization: `Bearer ${token}`
+      },
+    })
+  }catch(err){
+    console.log(err)
+  }
+  localStorage.removeItem('token')
 };
 
 export const getToken = (): string | null => {
-  if (typeof localStorage !== 'undefined') {
-    return localStorage.getItem('token');
-  }
-  return null;
+  return localStorage.getItem('token');
 };
