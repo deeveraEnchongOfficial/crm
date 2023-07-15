@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useRouter } from "next/router";
 import Link from 'next/link';
 import Image from 'next/image';
 import { getUser } from '../../utils/useUser';
@@ -13,6 +14,8 @@ const DropdownUser = () => {
     image: Blob;
     // Other properties
   }
+
+  const router = useRouter();
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [user, setUser] = useState<User | undefined>(undefined);
@@ -56,7 +59,16 @@ const DropdownUser = () => {
     return () => document.removeEventListener('keydown', keyHandler);
   });
 
- 
+  const handleLogout = async () => {
+    try {
+      // Perform logout logic, e.g., making an API request or clearing local storage
+      await logout();
+      // Redirect to the login page after successful logout
+      router.push('/auth/login');
+    } catch (error) {
+      console.log('Logout failed:', error);
+    }
+  };
 
   return (
     <div className="relative">
@@ -178,7 +190,7 @@ const DropdownUser = () => {
             </Link>
           </li>
         </ul>
-        <button className="flex items-center gap-3.5 py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base" onClick={logout}>
+        <button className="flex items-center gap-3.5 py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base" onClick={handleLogout}>
           <svg
             className="fill-current"
             width="22"

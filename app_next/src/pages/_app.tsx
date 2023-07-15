@@ -33,6 +33,8 @@ function MyApp({ Component, pageProps }: AppProps) {
 
       if (token) {
         setLayout(true);
+      }else{
+        setLayout(false);
       }
 
       setLoading(false); // Set the loading state back to false
