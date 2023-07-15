@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Repositories\UserRepository;
+use App\Http\Requests\RegisterUserRequest;
+use App\Notifications\UserVerificationNotification;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\URL;
+use App\Http\Requests\UserRegisterRequest;
 
 class AuthController extends Controller
 {
@@ -21,39 +27,43 @@ class AuthController extends Controller
         $this->userRepository = $userRepository;
     }
 
-    /**
-     * Create User
-     *
-     * @return User
-     */
+
     public function createUser(Request $request)
     {
         try {
-            //Validated
-            $validateUser = Validator::make(
-                $request->all(),
-                [
-                    'name' => 'required',
-                    'email' => 'required|email|unique:users,email',
-                    'password' => 'required',
-                ]
-            );
+            // Validate the request data
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string|max:255',
+                'email' => 'required|email|max:255|unique:users',
+                'password' => 'required|string|min:8|confirmed',
+            ]);
 
-            if ($validateUser->fails()) {
+            if ($validator->fails()) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'validation error',
-                    'errors' => $validateUser->errors(),
-                ], 401);
+                    'message' => 'Validation error',
+                    'errors' => $validator->errors(),
+                ], 422);
             }
 
             $data = [
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
+                'remember_token' => Str::random(10), // Generate a verification token
             ];
 
             $user = $this->userRepository->create($data);
+
+            $url = URL::temporarySignedRoute(
+                'verify.user',
+                now()->addMinutes(60), // Expiration time for the signed URL
+                ['email' => $user->email, 'remember_token' => $data['remember_token']],
+            );
+
+            // Send email verification notification
+            Notification::route('mail', $user->email)
+                ->notify(new UserVerificationNotification($url));
 
             return response()->json([
                 'status' => true,
@@ -66,6 +76,37 @@ class AuthController extends Controller
                 'message' => $th->getMessage(),
             ], 500);
         }
+    }
+
+    public function verifyUser(Request $request)
+    {
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Invalid verification token.',
+            ], 400);
+        }
+
+        // Check if the remember_token matches the request token
+        if ($user->remember_token !== $request->remember_token) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Invalid verification token.',
+            ], 400);
+        }
+
+        // Update the user's verification status
+        $user->email_verified_at = now();
+        $user->remember_token = Str::random(10);
+        $user->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'User verified successfully.',
+        ], 200);
+
     }
 
     /**
@@ -86,6 +127,13 @@ class AuthController extends Controller
             }
 
             $user = $this->userRepository->findByEmail($request->email);
+
+            if ($user->email_verified_at === null) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Email is not verified.',
+                ], 401);
+            }
 
             return response()->json([
                 'status' => true,
