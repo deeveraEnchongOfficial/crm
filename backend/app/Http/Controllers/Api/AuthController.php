@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Config;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\URL;
 use App\Http\Requests\UserRegisterRequest;
+use Illuminate\Support\Facades\Redirect;
 
 class AuthController extends Controller
 {
@@ -102,11 +104,8 @@ class AuthController extends Controller
         $user->remember_token = Str::random(10);
         $user->save();
 
-        return response()->json([
-            'status' => true,
-            'message' => 'User verified successfully.',
-        ], 200);
-
+        // Redirect to the login page
+        return Redirect::away(Config::get('app.redirect_url'));
     }
 
     /**

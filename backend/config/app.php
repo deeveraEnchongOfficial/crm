@@ -212,4 +212,6 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 
+    'redirect_url' => env('REDIRECT_URL', 'http://localhost:3000/auth/login'),
+
 ];
