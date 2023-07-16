@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import Image from "next/image";
 import { useRouter } from 'next/router';
-import Logo from '../images/logo/logo.svg';
+import up_next from '@/images/logo/up_next.png';
 import SidebarLinkGroup from './SidebarLinkGroup';
 
 interface SidebarProps {
@@ -66,7 +67,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       {/* <!-- SIDEBAR HEADER --> */}
       <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
         <Link href="/">
-          <img src={Logo} alt="Logo" />
+        <Image src={up_next} alt="Logo" width={200} height={50} />
         </Link>
 
         <button
