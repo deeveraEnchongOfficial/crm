@@ -6,81 +6,45 @@ import BrandFour from '../images/brand/brand-04.svg';
 import BrandFive from '../images/brand/brand-05.svg';
 import { data } from 'autoprefixer';
 import appNext from '../../axiosConfig';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getTransactions } from '../../utils/useInventories'
+import { error } from 'console';
 
 const TableInventory = () => {
 
+    const [transactions, setTransactions] = useState([])
     
-    const [dummyData1, setDummyData1] = useState({})
+    useEffect(()=>{
+      getTransactions()
+      .then((data)=>{
+        setTransactions(data.inventories);
+      })
+    }, [])
    
-    //fetch('../data/informations.json')
-    //.then(response=> {return response})
-    //.then(data=> setDummyData1(data))
-            
-   
-  const brandInformation = [
-    {
-      company: `${dummyData1}`,
-      visitor: '$500,120,310',
-      revenues: '$5,768',
-      sales: '590',
-      conversion: 'July 29, 2023',
-      logo: 'https://img.icons8.com/?size=512&id=17949&format=png'
-    },
-    {
-      company: 'Auriel Fernandez',
-      visitor: '$413,414,000',
-      revenues: '$4,635',
-      sales: '467',
-      conversion: 'August 11, 2023',
-      logo: 'https://img.icons8.com/?size=512&id=13963&format=png'
-    },
-    {
-      company: 'Rolando De Guzman',
-      visitor: '$250,402,000',
-      revenues: '$4,290',
-      sales: '420',
-      conversion: 'November 12, 2023',
-      logo: 'https://img.icons8.com/?size=512&id=63777&format=png'
-    },
-    {
-      company: 'Jericho Valdez',
-      visitor: '$214,313,018',
-      revenues: '$3,580',
-      sales: '389',
-      conversion: 'November 02, 2023',
-      logo: 'https://img.icons8.com/?size=512&id=21048&format=png'
-    },
-    {
-      company: 'Arneil Sevilla',
-      visitor: '$162,121,000',
-      revenues: '$2,740',
-      sales: '230',
-      conversion: 'January 01, 2024',
-      logo: 'https://img.icons8.com/?size=512&id=118497&format=png'
-    }
-  ]
-
-  return (
-    <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-      <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">
-        Top Loaners
+ return (
+  <>
+  <div className='flex justify-between justify-center content-center h-0'>
+      <h4 className="mb-6 ml-3 text-xl font-semibold dark:text-white">
+        Transactions list
       </h4>
+      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-person-plus font-extrabold mr-16 dark:text-white" viewBox="0 0 16 16"> <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/> <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/> </svg>
+      </div>
+    <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       <div className="flex flex-col">
         <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-5">
           <div className="p-2.0 text-center xl:p-4">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Fullname
+              Item Name
             </h5>
           </div>
           <div className="p-2.0 text-center xl:p-4">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Amount
+              Price
             </h5>
           </div>
           <div className="hidden p-2.5 text-center sm:block xl:p-4">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
-                Due-date
+                Quantity
             </h5>
           </div>
           <div className="hidden p-2.5 text-center sm:block xl:p-4">
@@ -95,20 +59,20 @@ const TableInventory = () => {
           </div>
         </div>
         {
-          brandInformation.map((data)=>{
+          transactions.map((data)=>{
            return <ul key={data}>{
             <div className="grid grid-cols-3 border-b border-stroke dark:border-strokedark sm:grid-cols-5">
             
                 <div className="flex items-center justify-center p-2.5 xl:p-3 font-bold">
-                <p className="text-black dark:text-white">{data.company}</p>
+                <p className="text-black dark:text-white">{data.item_name}</p>
                 </div>
     
                 <div className="flex items-center justify-center p-2.5 xl:p-2">
-                    <p className="text-black dark:text-white">{data.visitor}</p>
+                    <p className="text-black dark:text-white">{data.price}</p>
                 </div>
 
                 <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-2">
-                    <p className="">{data.conversion}</p>
+                    <p className="">{data.quantity}</p>
                 </div>
 
                 <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-2">
@@ -124,9 +88,13 @@ const TableInventory = () => {
         } </ul>
         })
     }
-
+    {/* { dummyData.map((data)=>{
+      return <h1 key={data}>{data.price}</h1>
+    })
+    } */}
     </div>
     </div>
+    </>
   );
 };
 
