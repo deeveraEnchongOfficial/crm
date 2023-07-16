@@ -15,3 +15,4 @@ export const getUser = async (): Promise<any> => {
     throw error;
   }
 };
+
