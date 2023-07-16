@@ -34,7 +34,10 @@ function MyApp({ Component, pageProps }: AppProps) {
       if (token) {
         setLayout(true);
       }else{
+        setLoading(true);
         setLayout(false);
+        router.push('/auth/login'); // Redirect to the login page if the token is not present
+        setLoading(false);
       }
 
       setLoading(false); // Set the loading state back to false
