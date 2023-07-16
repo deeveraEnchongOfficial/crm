@@ -1,11 +1,15 @@
-import { useState, useEffect } from "react";
-import { useRouter } from 'next/router';
-import { getToken } from '../../../utils/auth';
-import Loader from "../../common/Loader/index";
+import Breadcrumb from '@/components/Breadcrumb';
+import TableInventory from '@/components/TableInventory';
 
-export default function Inventory() {
-
+const Tables = () => {
   return (
-    <h1>Inventory List</h1>
+    <>
+      <Breadcrumb pageName="Inventory" />
+      <div className="flex flex-col gap-10">
+        <TableInventory />
+      </div>
+    </>
   );
-}
+};
+
+export default Tables;
