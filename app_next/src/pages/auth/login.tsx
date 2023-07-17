@@ -4,11 +4,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { login } from "@/hooks/useAuth";
 import NEXT_LOGO from "@/images/logo/NEXT_LOGO.png"
+import AlertError from '../../components/AlertError'
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [emailC, setEmailC] = useState("");
 
   const router = useRouter();
 
@@ -23,10 +25,12 @@ export default function Login() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     const token = await login(email, password);
+    setEmailC(email)
     if (token) {
       router.push("/"); // Redirect to the dashboard page
     } else {
       setError("Invalid email or password");
+
     }
   };
 
@@ -55,12 +59,13 @@ export default function Login() {
           </div>
 
           <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
+          <AlertError email={emailC}/>
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
               <span className="mb-1.5 block font-medium">Start for free</span>
               <h2 className="text-2xl font-bold text-black mb-9 dark:text-white sm:text-title-xl2">
                 Sign In to AppNext
               </h2>
-
+              
               <form onSubmit={handleLogin}>
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
@@ -95,10 +100,10 @@ export default function Login() {
                     </span>
                   </div>
                 </div>
-
+                    
                 <div className="mb-6">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
-                    Re-type Password
+                    Enter Password
                   </label>
                   <div className="relative">
                     <input
@@ -109,7 +114,7 @@ export default function Login() {
                       placeholder="6+ Characters, 1 Capital letter"
                       className="w-full py-4 pl-6 pr-10 bg-transparent border rounded-lg outline-none border-stroke focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
-
+                    
                     <span className="absolute right-4 top-4">
                       <svg
                         className="fill-current"
@@ -138,6 +143,7 @@ export default function Login() {
                   <input
                     type="submit"
                     value="Sign In"
+                 
                     className="w-full p-4 text-white transition border rounded-lg cursor-pointer border-primary bg-primary hover:bg-opacity-90"
                   />
                 </div>
