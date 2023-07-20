@@ -5,14 +5,16 @@ import Image from "next/image";
 import { login } from "@/hooks/useAuth";
 import NEXT_LOGO from "@/images/logo/NEXT_LOGO.png"
 import AlertError from '../../components/AlertError'
+import appNext from '../../../axiosConfig'
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [emailC, setEmailC] = useState("");
-
+  const [passwordC, setPasswordC] = useState("");
   const router = useRouter();
+  const [cMessage, setCMessage] = useState("");
 
   useEffect(() => {
     // Check if user is already authenticated
@@ -25,12 +27,20 @@ export default function Login() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     const token = await login(email, password);
-    setEmailC(email)
+    setEmailC(email);
+    setPasswordC(password);
+    const response = await appNext.post('api/auth/login', { email, password })
+      
+      .catch(function (error){
+        if(error.response){
+          setCMessage(error.response.data.message)
+        }
+      })
+    
     if (token) {
       router.push("/"); // Redirect to the dashboard page
     } else {
       setError("Invalid email or password");
-
     }
   };
 
@@ -59,7 +69,7 @@ export default function Login() {
           </div>
 
           <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
-          <AlertError email={emailC}/>
+          <AlertError email={emailC} passwordC={passwordC} messageC={cMessage}/>
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
               <span className="mb-1.5 block font-medium">Start for free</span>
               <h2 className="text-2xl font-bold text-black mb-9 dark:text-white sm:text-title-xl2">
