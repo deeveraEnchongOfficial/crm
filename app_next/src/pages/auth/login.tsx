@@ -26,21 +26,14 @@ export default function Login() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    const token = await login(email, password);
-    setEmailC(email);
-    setPasswordC(password);
-    const response = await appNext.post('api/auth/login', { email, password })
-      
-      .catch(function (error){
-        if(error.response){
-          setCMessage(error.response.data.message)
-        }
-      })
-    
+    const { token, message } = await login(email, password);
     if (token) {
+      setError(message);
+      console.log("message Success",message);
       router.push("/"); // Redirect to the dashboard page
     } else {
-      setError("Invalid email or password");
+      console.log("Login Failed. Message: ",message);
+      setError(message);
     }
   };
 

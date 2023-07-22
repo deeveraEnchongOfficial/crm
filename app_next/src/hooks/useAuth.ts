@@ -1,15 +1,17 @@
 import appNext from '@/../axiosConfig';
 
-export const login = async (email: string, password: string): Promise<string | null> => {
+export const login = async (email: string, password: string): Promise<{ token: string | null, message: string}> => {
 
   try {
     const response = await appNext.post('/api/auth/login', { email, password });
-    const { token } = response.data;
+    const { token, message } = response.data;
     localStorage.setItem('token', token);
-    return token;
-  } catch (error) {
-    console.error('Login failed:', error);
-    return null;
+    return { token, message };
+  } catch (error: any) {
+
+    const errorMessage = typeof error === 'string' ? error : error?.response?.data?.message || 'An error occurred during login.';
+
+    return { token: null, message: errorMessage };
   }
 };
 
