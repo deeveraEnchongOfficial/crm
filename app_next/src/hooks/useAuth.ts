@@ -1,4 +1,4 @@
-import appNext from '../axiosConfig';
+import appNext from '@/../axiosConfig';
 
 export const login = async (email: string, password: string): Promise<string | null> => {
   try {

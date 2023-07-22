@@ -1,5 +1,5 @@
-import appNext from '../axiosConfig';
-import { getToken } from '../utils/auth';
+import appNext from '@/../axiosConfig';
+import { getToken } from '@/hooks/useAuth'
 
 export const getUser = async (): Promise<any> => {
   const token = getToken();

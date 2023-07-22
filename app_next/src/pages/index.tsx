@@ -1,17 +1,17 @@
 import { useState, useEffect } from "react";
 import { useRouter } from 'next/router';
-import { getToken } from '../../utils/auth';
-import CardFour from '../components/CardFour';
-import CardOne from '../components/CardOne';
-import CardThree from '../components/CardThree';
-import CardTwo from '../components/CardTwo';
-import ChartOne from '../components/ChartOne';
-// import ChartThree from '../components/ChartThree';
-// import ChartTwo from '../components/ChartTwo';
-// import ChatCard from '../components/ChatCard';
-// import MapOne from '../components/MapOne';
-// import TableOne from '../components/TableOne';
-import Loader from "../common/Loader";
+import { getToken } from '@/hooks/useAuth';
+import CardFour from '@/components/CardFour';
+import CardOne from '@/components/CardOne';
+import CardThree from '@/components/CardThree';
+import CardTwo from '@/components/CardTwo';
+import ChartOne from '@/components/ChartOne';
+// import ChartThree from '@/components/ChartThree';
+// import ChartTwo from '@/components/ChartTwo';
+// import ChatCard from '@/components/ChatCard';
+// import MapOne from '@/components/MapOne';
+// import TableOne from '@/components/TableOne';
+import Loader from "@/common/Loader";
 
 export default function Dashboard() {
 
