@@ -10,30 +10,29 @@ import appNext from '../../../axiosConfig'
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [emailC, setEmailC] = useState("");
-  const [passwordC, setPasswordC] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
   const router = useRouter();
-  const [cMessage, setCMessage] = useState("");
+  const [isToken, setIsToken] = useState(false)
 
   useEffect(() => {
     // Check if user is already authenticated
     const token = localStorage.getItem("token");
     if (token) {
+
       router.replace("/"); // Redirect to dashboard if authenticated
     }
   }, [router]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    const { token, message } = await login(email, password);
+    const { token,message }  = await login(email, password);
     if (token) {
-      setError(message);
-      console.log("message Success",message);
+      setIsToken(true)
+      setAlertMessage(message)
       router.push("/"); // Redirect to the dashboard page
     } else {
-      console.log("Login Failed. Message: ",message);
-      setError(message);
+      setIsToken(false)
+      setAlertMessage(message);
     }
   };
 
@@ -62,7 +61,9 @@ export default function Login() {
           </div>
 
           <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
-          <AlertError email={emailC} passwordC={passwordC} messageC={cMessage}/>
+        
+            <AlertError messageC={alertMessage} isToken={isToken}/>
+     
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
               <span className="mb-1.5 block font-medium">Start for free</span>
               <h2 className="text-2xl font-bold text-black mb-9 dark:text-white sm:text-title-xl2">
