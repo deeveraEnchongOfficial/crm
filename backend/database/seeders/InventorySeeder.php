@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Inventory;
+use Faker\Factory as Faker;
 
 class InventorySeeder extends Seeder
 {
@@ -15,34 +16,23 @@ class InventorySeeder extends Seeder
      */
     public function run()
     {
-        Inventory::create([
-            'item_name' => 'Example Item 1',
-            'price' => 10.99,
-            'currency' => 'USD',
-            'quantity' => 100,
-            'unit' => 'pieces',
-            'vendor_supplier' => 'Vendor 1',
-            'type' => 'Type 1',
-            'code' => '12345',
-            'category' => 'Category 1',
-            'location' => 'Location 1',
-            'description' => 'Example description 1',
-        ]);
+        $faker = Faker::create();
 
-        Inventory::create([
-            'item_name' => 'Example Item 2',
-            'price' => 15.99,
-            'currency' => 'USD',
-            'quantity' => 50,
-            'unit' => 'pieces',
-            'vendor_supplier' => 'Vendor 2',
-            'type' => 'Type 2',
-            'code' => '54321',
-            'category' => 'Category 2',
-            'location' => 'Location 2',
-            'description' => 'Example description 2',
-        ]);
-
-        // Add more inventory records as needed
+        // Generate 50 random inventory items
+        for ($i = 0; $i < 50; $i++) {
+            Inventory::create([
+                'item_name' => $faker->unique()->word . ' ' . $faker->randomDigitNotNull,
+                'price' => $faker->randomFloat(2, 5, 100),
+                'currency' => 'PHP',
+                'quantity' => $faker->numberBetween(10, 200),
+                'unit' => $faker->randomElement(['pieces', 'units', 'boxes']),
+                'vendor_supplier' => $faker->company,
+                'type' => $faker->randomElement(['Type 1', 'Type 2', 'Type 3']),
+                'code' => $faker->unique()->bothify('???####'),
+                'category' => $faker->randomElement(['Category 1', 'Category 2', 'Category 3']),
+                'location' => $faker->randomElement(['Location 1', 'Location 2', 'Location 3']),
+                'description' => $faker->paragraph,
+            ]);
+        }
     }
 }

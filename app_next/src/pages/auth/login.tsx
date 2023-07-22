@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
-import { login } from "../../../utils/auth";
+import { login } from "@/hooks/useAuth";
 import NEXT_LOGO from "@/images/logo/NEXT_LOGO.png"
 
 export default function Login() {

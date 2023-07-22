@@ -1,10 +1,10 @@
 import { Suspense, lazy, useEffect, useState } from 'react';
 import { useRouter } from "next/router";
 import { AppProps } from "next/app";
-import { getToken } from "../../utils/auth";
-import DefaultLayout from "../../layout/DefaultLayout";
+import { getToken } from "@/hooks/useAuth";
+import DefaultLayout from "@/../layout/DefaultLayout";
 import "../../styles/tailwind.css";
-import Loader from "../common/Loader";
+import Loader from "@/common/Loader";
 
 // const Calendar = lazy(() => import('../'));
 // const Chart = lazy(() => import('./pages/Chart'));

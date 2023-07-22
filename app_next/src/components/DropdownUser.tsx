@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 import { useRouter } from "next/router";
 import Link from 'next/link';
 import Image from 'next/image';
-import { getUser } from '../../utils/useUser';
+import { getUser } from '@/hooks/useUser';
 import UserOne from '../images/user/user-01.png';
-import { logout } from '../../utils/auth';
+import { logout } from '@/hooks/useAuth';
 
 const DropdownUser = () => {
 

@@ -5,9 +5,8 @@ import BrandThree from '../images/brand/brand-03.svg';
 import BrandFour from '../images/brand/brand-04.svg';
 import BrandFive from '../images/brand/brand-05.svg';
 import { data } from 'autoprefixer';
-import appNext from '../../axiosConfig';
 import { useEffect, useState } from 'react';
-import { getTransactions } from '../../utils/useInventories'
+import { getTransactions } from '@/hooks/useInventories'
 
 
 const TableInventory = () => {
