@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import Logo from '../images/logo/logo-icon.svg';
+import Image from 'next/image';
+import up_next from '@/images/logo/up_next.png';
 import DarkModeSwitcher from './DarkModeSwitcher';
 import DropdownMessage from './DropdownMessage';
 import DropdownNotification from './DropdownNotification';
@@ -57,7 +58,7 @@ const Header = (props: {
           {/* <!-- Hamburger Toggle BTN --> */}
 
           <Link className="flex-shrink-0 block lg:hidden" href="/">
-            <img src={Logo} alt="Logo" />
+            <Image src={up_next} alt="up_next" />
           </Link>
         </div>
 
