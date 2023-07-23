@@ -1,10 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
-import UserOne from '../images/user/user-01.png';
-import UserTwo from '../images/user/user-02.png';
-import UserThree from '../images/user/user-03.png';
-import UserFour from '../images/user/user-04.png';
+import Default_Profile_pic from "../images/user/Default_Profile_pic.png";
 
 const DropdownMessage = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -97,12 +95,12 @@ const DropdownMessage = () => {
               href="/messages"
             >
               <div className="h-12.5 w-12.5 rounded-full">
-                <img src={UserTwo} alt="User" />
+                <Image src={Default_Profile_pic} alt="User" />
               </div>
 
               <div>
                 <h6 className="text-sm font-medium text-black dark:text-white">
-                  Mariya Desoja
+                Fname Lname
                 </h6>
                 <p className="text-sm">I like your confidence 💪</p>
                 <p className="text-xs">2min ago</p>
@@ -115,12 +113,12 @@ const DropdownMessage = () => {
               href="/messages"
             >
               <div className="h-12.5 w-12.5 rounded-full">
-                <img src={UserOne} alt="User" />
+                <Image src={Default_Profile_pic} alt="User" />
               </div>
 
               <div>
                 <h6 className="text-sm font-medium text-black dark:text-white">
-                  Robert Jhon
+                Fname Lname
                 </h6>
                 <p className="text-sm">Can you share your offer?</p>
                 <p className="text-xs">10min ago</p>
@@ -133,12 +131,12 @@ const DropdownMessage = () => {
               href="/messages"
             >
               <div className="h-12.5 w-12.5 rounded-full">
-                <img src={UserThree} alt="User" />
+                <Image src={Default_Profile_pic} alt="User" />
               </div>
 
               <div>
                 <h6 className="text-sm font-medium text-black dark:text-white">
-                  Henry Dholi
+                Fname Lname
                 </h6>
                 <p className="text-sm">I cam across your profile and...</p>
                 <p className="text-xs">1day ago</p>
@@ -151,12 +149,12 @@ const DropdownMessage = () => {
               href="/messages"
             >
               <div className="h-12.5 w-12.5 rounded-full">
-                <img src={UserFour} alt="User" />
+                <Image src={Default_Profile_pic} alt="User" />
               </div>
 
               <div>
                 <h6 className="text-sm font-medium text-black dark:text-white">
-                  Cody Fisher
+                Fname Lname
                 </h6>
                 <p className="text-sm">I’m waiting for you response!</p>
                 <p className="text-xs">5days ago</p>
@@ -169,12 +167,12 @@ const DropdownMessage = () => {
               href="/messages"
             >
               <div className="h-12.5 w-12.5 rounded-full">
-                <img src={UserTwo} alt="User" />
+                <Image src={Default_Profile_pic} alt="User" />
               </div>
 
               <div>
                 <h6 className="text-sm font-medium text-black dark:text-white">
-                  Mariya Desoja
+                Fname Lname
                 </h6>
                 <p className="text-sm">I like your confidence 💪</p>
                 <p className="text-xs">2min ago</p>

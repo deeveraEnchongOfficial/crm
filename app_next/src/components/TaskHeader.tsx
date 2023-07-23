@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import userSeven from '../images/user/user-07.png';
-import userEight from '../images/user/user-08.png';
-import userNine from '../images/user/user-09.png';
-import userTen from '../images/user/user-10.png';
+import Image from 'next/image';
+import Default_Profile_pic from "../images/user/Default_Profile_pic.png";
 
 const TaskHeader = () => {
   const [popupOpen, setPopupOpen] = useState(false);
@@ -37,25 +35,25 @@ const TaskHeader = () => {
   });
 
   return (
-    <div className="flex flex-col gap-y-4 rounded-sm border border-stroke bg-white p-3 shadow-default dark:border-strokedark dark:bg-boxdark sm:flex-row sm:items-center sm:justify-between">
+    <div className="flex flex-col p-3 bg-white border rounded-sm gap-y-4 border-stroke shadow-default dark:border-strokedark dark:bg-boxdark sm:flex-row sm:items-center sm:justify-between">
       <div>
-        <h3 className="pl-2 text-title-lg font-semibold text-black dark:text-white">
+        <h3 className="pl-2 font-semibold text-black text-title-lg dark:text-white">
           Tasks
         </h3>
       </div>
       <div className="flex flex-col gap-4 2xsm:flex-row 2xsm:items-center">
         <div className="flex -space-x-2">
-          <button className="h-9 w-9 rounded-full border-2 border-white dark:border-boxdark">
-            <img src={userSeven} alt="User" />
+          <button className="border-2 border-white rounded-full h-9 w-9 dark:border-boxdark">
+            <Image src={Default_Profile_pic} alt="User" />
           </button>
-          <button className="h-9 w-9 rounded-full border-2 border-white dark:border-boxdark">
-            <img src={userEight} alt="User" />
+          <button className="border-2 border-white rounded-full h-9 w-9 dark:border-boxdark">
+            <Image src={Default_Profile_pic} alt="User" />
           </button>
-          <button className="h-9 w-9 rounded-full border-2 border-white dark:border-boxdark">
-            <img src={userNine} alt="User" />
+          <button className="border-2 border-white rounded-full h-9 w-9 dark:border-boxdark">
+            <Image src={Default_Profile_pic} alt="User" />
           </button>
-          <button className="h-9 w-9 rounded-full border-2 border-white dark:border-boxdark">
-            <img src={userTen} alt="User" />
+          <button className="border-2 border-white rounded-full h-9 w-9 dark:border-boxdark">
+            <Image src={Default_Profile_pic} alt="User" />
           </button>
           <button className="flex h-9 w-9 items-center justify-center rounded-full border border-stroke bg-white text-primary dark:border-strokedark dark:bg-[#4f5e77] dark:text-white">
             <svg
