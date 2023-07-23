@@ -3,23 +3,33 @@ import { useState,useEffect} from "react"
 type TitleProps = {
     messageC: string,
     isToken: boolean,
+    submit: number,
 }
 var AlertError = (props: TitleProps) =>{
 
-    const [alertBox, setAlertBox] = useState(<div/>)    
-    const [alertMessage, setAlertMessage] = useState("")
+    const [alertBox, setAlertBox] = useState(<div/>);  
+    const [alertMessage, setAlertMessage] = useState("");
+    const [showElement, setShowElement] = useState(true);
+  
 
     useEffect(()=>{
         setAlertMessage(props.messageC)
     }, [props.messageC])
 
     useEffect(()=>{
-        if(alertMessage !=''){
-            props.isToken === true ? setAlertBox(messageSuccess) :setAlertBox(messageError); 
+        if(alertMessage != ''){
+            props.isToken == true ? setAlertBox(messageSuccess) : setAlertBox(messageError); 
         }
     }, [alertMessage])
 
-
+    useEffect(()=>{
+        if(props.submit==1){
+            setShowElement(true)
+        }
+        else{
+            setShowElement(false)
+        }
+    }, [props.submit])
 
     const messageError = 
         <div id="toast-success" className="flex items-center animate-bounce max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800 fixed top-4 right-4 w-37" role="alert">
@@ -45,10 +55,10 @@ var AlertError = (props: TitleProps) =>{
     
     return(
         <>
-         {alertBox}
+         {showElement ? alertBox : <></>}
         </>
     )
 }
 
 export default AlertError;
-
+    

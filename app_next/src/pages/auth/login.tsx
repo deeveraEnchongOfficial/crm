@@ -13,6 +13,11 @@ export default function Login() {
   const [alertMessage, setAlertMessage] = useState("");
   const router = useRouter();
   const [isToken, setIsToken] = useState(false)
+  const [isSubmit, setIsSubmit] = useState(0);
+
+  const reset = () =>{
+    setIsSubmit(0); 
+  }
 
   useEffect(() => {
     // Check if user is already authenticated
@@ -24,16 +29,18 @@ export default function Login() {
   }, [router]);
 
   const handleLogin = async (e: React.FormEvent) => {
+    setIsSubmit(1)
     e.preventDefault();
     const { token,message }  = await login(email, password);
     if (token) {
-      setIsToken(true)
+      setIsToken(true)   
       setAlertMessage(message)
       router.push("/"); // Redirect to the dashboard page
     } else {
       setIsToken(false)
       setAlertMessage(message);
     }
+    setTimeout(reset, 7000)
   };
 
   return (
@@ -62,7 +69,7 @@ export default function Login() {
 
           <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
         
-            <AlertError messageC={alertMessage} isToken={isToken}/>
+            <AlertError messageC={alertMessage} isToken={isToken} submit={isSubmit}/>
      
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
               <span className="mb-1.5 block font-medium">Start for free</span>
