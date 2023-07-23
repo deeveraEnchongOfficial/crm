@@ -1,10 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import UserOne from '../images/user/user-01.png';
-import UserTwo from '../images/user/user-02.png';
-import UserThree from '../images/user/user-03.png';
-import UserFour from '../images/user/user-04.png';
-import UserFive from '../images/user/user-05.png';
+import Default_Profile_pic from '../images/user/Default_Profile_pic.png';
 
 const ChatCard = () => {
   return (
@@ -19,14 +15,14 @@ const ChatCard = () => {
           className="flex items-center gap-5 py-3 px-7.5 hover:bg-gray-3 dark:hover:bg-meta-4"
         >
           <div className="relative rounded-full h-14 w-14">
-            <Image src={UserThree} alt="User" />
+            <Image src={Default_Profile_pic} alt="User" />
             <span className="absolute right-0 bottom-0 h-3.5 w-3.5 rounded-full border-2 border-white bg-meta-3"></span>
           </div>
 
           <div className="flex items-center justify-between flex-1">
             <div>
               <h5 className="font-medium text-black dark:text-white">
-                Devid Heilo
+                Fname Lname
               </h5>
               <p>
                 <span className="text-sm text-black dark:text-white">
@@ -45,13 +41,13 @@ const ChatCard = () => {
           className="flex items-center gap-5 py-3 px-7.5 hover:bg-gray-3 dark:hover:bg-meta-4"
         >
           <div className="relative rounded-full h-14 w-14">
-            <Image src={UserFour} alt="User" />
+            <Image src={Default_Profile_pic} alt="User" />
             <span className="absolute right-0 bottom-0 h-3.5 w-3.5 rounded-full border-2 border-white bg-meta-3"></span>
           </div>
 
           <div className="flex items-center justify-between flex-1">
             <div>
-              <h5 className="font-medium">Henry Fisher</h5>
+              <h5 className="font-medium">Fname Lname</h5>
               <p>
                 <span className="text-sm">I am waiting for you</span>
                 <span className="text-xs"> . 5:54 PM</span>
@@ -64,13 +60,13 @@ const ChatCard = () => {
           className="flex items-center gap-5 py-3 px-7.5 hover:bg-gray-3 dark:hover:bg-meta-4"
         >
           <div className="relative rounded-full h-14 w-14">
-            <Image src={UserFive} alt="User" />
+            <Image src={Default_Profile_pic} alt="User" />
             <span className="absolute right-0 bottom-0 h-3.5 w-3.5 rounded-full border-2 border-white bg-meta-6"></span>
           </div>
 
           <div className="flex items-center justify-between flex-1">
             <div>
-              <h5 className="font-medium">Wilium Smith</h5>
+              <h5 className="font-medium">Fname Lname</h5>
               <p>
                 <span className="text-sm">Where are you now?</span>
                 <span className="text-xs"> . 10:12 PM</span>
@@ -83,14 +79,14 @@ const ChatCard = () => {
           className="flex items-center gap-5 py-3 px-7.5 hover:bg-gray-3 dark:hover:bg-meta-4"
         >
           <div className="relative rounded-full h-14 w-14">
-            <Image src={UserOne} alt="User" />
+            <Image src={Default_Profile_pic} alt="User" />
             <span className="absolute right-0 bottom-0 h-3.5 w-3.5 rounded-full border-2 border-white bg-meta-3"></span>
           </div>
 
           <div className="flex items-center justify-between flex-1">
             <div>
               <h5 className="font-medium text-black dark:text-white">
-                Henry Deco
+              Fname Lname
               </h5>
               <p>
                 <span className="text-sm text-black dark:text-white">
@@ -109,13 +105,13 @@ const ChatCard = () => {
           className="flex items-center gap-5 py-3 px-7.5 hover:bg-gray-3 dark:hover:bg-meta-4"
         >
           <div className="relative rounded-full h-14 w-14">
-            <Image src={UserTwo} alt="User" />
+            <Image src={Default_Profile_pic} alt="User" />
             <span className="absolute right-0 bottom-0 h-3.5 w-3.5 rounded-full border-2 border-white bg-meta-7"></span>
           </div>
 
           <div className="flex items-center justify-between flex-1">
             <div>
-              <h5 className="font-medium">Jubin Jack</h5>
+              <h5 className="font-medium">Fname Lname</h5>
               <p>
                 <span className="text-sm">I really love that!</span>
                 <span className="text-xs"> . Oct 23</span>
@@ -128,13 +124,13 @@ const ChatCard = () => {
           className="flex items-center gap-5 py-3 px-7.5 hover:bg-gray-3 dark:hover:bg-meta-4"
         >
           <div className="relative rounded-full h-14 w-14">
-            <Image src={UserFive} alt="User" />
+            <Image src={Default_Profile_pic} alt="User" />
             <span className="absolute right-0 bottom-0 h-3.5 w-3.5 rounded-full border-2 border-white bg-meta-6"></span>
           </div>
 
           <div className="flex items-center justify-between flex-1">
             <div>
-              <h5 className="font-medium">Wilium Smith</h5>
+              <h5 className="font-medium">Fname Lname</h5>
               <p>
                 <span className="text-sm">Where are you now?</span>
                 <span className="text-xs"> . Sep 20</span>

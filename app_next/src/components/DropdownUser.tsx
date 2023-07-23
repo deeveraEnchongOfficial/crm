@@ -1,13 +1,13 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
-import Link from 'next/link';
-import Image from 'next/image';
-import { getUser } from '@/hooks/useUser';
-import UserOne from '../images/user/user-01.png';
-import { logout } from '@/hooks/useAuth';
+import Link from "next/link";
+import Image from "next/image";
+import { getUser } from "@/hooks/useUser";
+import UserOne from "../images/user/user-01.png";
+import Default_Profile_pic from "../images/user/Default_Profile_pic.png";
+import { logout } from "@/hooks/useAuth";
 
 const DropdownUser = () => {
-
   interface User {
     name: string;
     role: number;
@@ -25,12 +25,12 @@ const DropdownUser = () => {
 
   useEffect(() => {
     getUser()
-    .then((data) => {
-      setUser(data.user);
-    })
-    .catch((error) => {
-      console.error('Failed to get User:', error);
-    });
+      .then((data) => {
+        setUser(data.user);
+      })
+      .catch((error) => {
+        console.error("Failed to get User:", error);
+      });
   }, []);
 
   // close on click outside
@@ -45,8 +45,8 @@ const DropdownUser = () => {
         return;
       setDropdownOpen(false);
     };
-    document.addEventListener('click', clickHandler);
-    return () => document.removeEventListener('click', clickHandler);
+    document.addEventListener("click", clickHandler);
+    return () => document.removeEventListener("click", clickHandler);
   });
 
   // close if the esc key is pressed
@@ -55,8 +55,8 @@ const DropdownUser = () => {
       if (!dropdownOpen || keyCode !== 27) return;
       setDropdownOpen(false);
     };
-    document.addEventListener('keydown', keyHandler);
-    return () => document.removeEventListener('keydown', keyHandler);
+    document.addEventListener("keydown", keyHandler);
+    return () => document.removeEventListener("keydown", keyHandler);
   });
 
   const handleLogout = async () => {
@@ -64,9 +64,9 @@ const DropdownUser = () => {
       // Perform logout logic, e.g., making an API request or clearing local storage
       await logout();
       // Redirect to the login page after successful logout
-      router.push('/auth/login');
+      router.push("/auth/login");
     } catch (error) {
-      console.log('Logout failed:', error);
+      console.log("Logout failed:", error);
     }
   };
 
@@ -86,12 +86,26 @@ const DropdownUser = () => {
         </span>
 
         <span className="w-12 h-12 rounded-full">
-          <Image src={`data:image/png;base64,${user?.image}`} height={200} width={200} alt="User" />
+          {user?.image ? (
+            <Image
+              src={`data:image/png;base64,${user.image}`}
+              height={200}
+              width={200}
+              alt="User"
+            />
+          ) : (
+            <Image
+              src={Default_Profile_pic}
+              height={200}
+              width={200}
+              alt="Default User"
+            />
+          )}
         </span>
 
         <svg
           className={`hidden fill-current sm:block ${
-            dropdownOpen ? 'rotate-180' : ''
+            dropdownOpen ? "rotate-180" : ""
           }`}
           width="12"
           height="8"
@@ -114,7 +128,7 @@ const DropdownUser = () => {
         onFocus={() => setDropdownOpen(true)}
         onBlur={() => setDropdownOpen(false)}
         className={`absolute right-0 mt-4 flex w-62.5 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark ${
-          dropdownOpen === true ? 'block' : 'hidden'
+          dropdownOpen === true ? "block" : "hidden"
         }`}
       >
         <ul className="flex flex-col gap-5 border-b border-stroke px-6 py-7.5 dark:border-strokedark">
@@ -190,7 +204,10 @@ const DropdownUser = () => {
             </Link>
           </li>
         </ul>
-        <button className="flex items-center gap-3.5 py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base" onClick={handleLogout}>
+        <button
+          className="flex items-center gap-3.5 py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
+          onClick={handleLogout}
+        >
           <svg
             className="fill-current"
             width="22"
@@ -198,7 +215,6 @@ const DropdownUser = () => {
             viewBox="0 0 22 22"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            
           >
             <path
               d="M15.5375 0.618744H11.6531C10.7594 0.618744 10.0031 1.37499 10.0031 2.26874V4.64062C10.0031 5.05312 10.3469 5.39687 10.7594 5.39687C11.1719 5.39687 11.55 5.05312 11.55 4.64062V2.23437C11.55 2.16562 11.5844 2.13124 11.6531 2.13124H15.5375C16.3625 2.13124 17.0156 2.78437 17.0156 3.60937V18.3562C17.0156 19.1812 16.3625 19.8344 15.5375 19.8344H11.6531C11.5844 19.8344 11.55 19.8 11.55 19.7312V17.3594C11.55 16.9469 11.2062 16.6031 10.7594 16.6031C10.3125 16.6031 10.0031 16.9469 10.0031 17.3594V19.7312C10.0031 20.625 10.7594 21.3812 11.6531 21.3812H15.5375C17.2219 21.3812 18.5625 20.0062 18.5625 18.3562V3.64374C18.5625 1.95937 17.1875 0.618744 15.5375 0.618744Z"
