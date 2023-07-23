@@ -3,44 +3,41 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
 import { login } from "@/hooks/useAuth";
-import NEXT_LOGO from "@/images/logo/NEXT_LOGO.png"
-import AlertError from '../../components/AlertError'
-import appNext from '../../../axiosConfig'
+import NEXT_LOGO from "@/images/logo/NEXT_LOGO.png";
+import Toast from "@/components/Toast";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [alertMessage, setAlertMessage] = useState("");
   const router = useRouter();
-  const [isToken, setIsToken] = useState(false)
-  const [isSubmit, setIsSubmit] = useState(0);
-
-  const reset = () =>{
-    setIsSubmit(0); 
-  }
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [alertMessage, setAlertMessage] = useState<string>("");
+  const [showToast, setShowToast] = useState<boolean>(false);
+  const [alertType, setAlertType] = useState<string>("");
 
   useEffect(() => {
     // Check if user is already authenticated
     const token = localStorage.getItem("token");
     if (token) {
-
       router.replace("/"); // Redirect to dashboard if authenticated
     }
   }, [router]);
 
   const handleLogin = async (e: React.FormEvent) => {
-    setIsSubmit(1)
     e.preventDefault();
-    const { token,message }  = await login(email, password);
+    handleToast();
+    const { token, message } = await login(email, password);
     if (token) {
-      setIsToken(true)   
-      setAlertMessage(message)
+      setAlertMessage(message);
+      setAlertType("success");
       router.push("/"); // Redirect to the dashboard page
     } else {
-      setIsToken(false)
       setAlertMessage(message);
+      setAlertType("error");
     }
-    setTimeout(reset, 7000)
+  };
+
+  const handleToast = () => {
+    setShowToast(!showToast);
   };
 
   return (
@@ -50,33 +47,41 @@ export default function Login() {
           <div className="hidden w-full xl:block xl:w-1/2">
             <div className="py-17.5 px-26 text-center">
               <Link href="/" className="mb-5.5 inline-block" passHref>
-                  <Image className="hidden dark:block" src={NEXT_LOGO} alt="Logo" style={{
-                      maxWidth: '100%',
-                      height: 'auto'
-                    }} />
-                  <Image
-                    className="dark:hidden"
-                    src={NEXT_LOGO}
-                    alt="Logo"
-                    style={{
-                      maxWidth: '100%',
-                      height: 'auto'
-                    }}
-                  />
+                <Image
+                  className="hidden dark:block"
+                  src={NEXT_LOGO}
+                  alt="Logo"
+                  style={{
+                    maxWidth: "100%",
+                    height: "auto",
+                  }}
+                />
+                <Image
+                  className="dark:hidden"
+                  src={NEXT_LOGO}
+                  alt="Logo"
+                  style={{
+                    maxWidth: "100%",
+                    height: "auto",
+                  }}
+                />
               </Link>
             </div>
           </div>
 
           <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
-        
-            <AlertError messageC={alertMessage} isToken={isToken} submit={isSubmit}/>
-     
+            {showToast && (
+              <Toast
+                type={alertType}
+                message={alertMessage}
+                onClose={handleToast}
+              />
+            )}
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
               <span className="mb-1.5 block font-medium">Start for free</span>
               <h2 className="text-2xl font-bold text-black mb-9 dark:text-white sm:text-title-xl2">
                 Sign In to AppNext
               </h2>
-              
               <form onSubmit={handleLogin}>
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
@@ -91,7 +96,6 @@ export default function Login() {
                       placeholder="Enter your email"
                       className="w-full py-4 pl-6 pr-10 bg-transparent border rounded-lg outline-none border-stroke focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
-
                     <span className="absolute right-4 top-4">
                       <svg
                         className="fill-current"
@@ -111,7 +115,6 @@ export default function Login() {
                     </span>
                   </div>
                 </div>
-                    
                 <div className="mb-6">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
                     Enter Password
@@ -125,7 +128,6 @@ export default function Login() {
                       placeholder="6+ Characters, 1 Capital letter"
                       className="w-full py-4 pl-6 pr-10 bg-transparent border rounded-lg outline-none border-stroke focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
-                    
                     <span className="absolute right-4 top-4">
                       <svg
                         className="fill-current"
@@ -149,16 +151,13 @@ export default function Login() {
                     </span>
                   </div>
                 </div>
-
                 <div className="mb-5">
                   <input
                     type="submit"
                     value="Sign In"
-                 
                     className="w-full p-4 text-white transition border rounded-lg cursor-pointer border-primary bg-primary hover:bg-opacity-90"
                   />
                 </div>
-
                 <button className="flex w-full items-center justify-center gap-3.5 rounded-lg border border-stroke bg-gray p-4 hover:bg-opacity-50 dark:border-strokedark dark:bg-meta-4 dark:hover:bg-opacity-50">
                   <span>
                     <svg
@@ -195,7 +194,6 @@ export default function Login() {
                   </span>
                   Sign in with Google
                 </button>
-
                 <div className="mt-6 text-center">
                   <p>
                     Don’t have any account?{" "}
