@@ -5,7 +5,7 @@ export const login = async (email: string, password: string): Promise<{token: nu
   try {
     const response = await appNext.post('/api/auth/login', { email, password });
     const { token, message } = response.data;
-    localStorage.setItem('token', token);
+    localStorage.setItem('token', token );
     return { token, message};
   } catch (error: any) {
     const message = typeof error === 'string' ? error : error?.response?.data.message || "An error occured";
