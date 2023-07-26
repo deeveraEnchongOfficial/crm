@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-
+import ButtonLoader from '@/common/Loader/button';
 interface LoadingButtonProps {
   isLoading: boolean;
   onClick: (event: React.FormEvent) => void;
@@ -10,7 +10,7 @@ interface LoadingButtonProps {
 const LoadingButton: React.FC<LoadingButtonProps> = ({ isLoading, onClick, children, className  }) => {
   return (
     <button className={className} onClick={onClick} disabled={isLoading}>
-      {isLoading ? <span>Loading...</span> : children}
+      {isLoading ? ButtonLoader() : children}
     </button>
   );
 };
