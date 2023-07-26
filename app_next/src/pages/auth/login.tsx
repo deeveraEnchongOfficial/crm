@@ -5,6 +5,8 @@ import Image from "next/image";
 import { login } from "@/hooks/useAuth";
 import NEXT_LOGO from "@/images/logo/NEXT_LOGO.png";
 import Toast from "@/components/Toast";
+import { getToken } from '@/hooks/useAuth';
+import Loader from "@/common/Loader";
 
 export default function Login() {
   const router = useRouter();
@@ -14,6 +16,14 @@ export default function Login() {
   const [showToast, setShowToast] = useState<boolean>(false);
   const [alertType, setAlertType] = useState<string>("");
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(()=>{
+    const token = getToken();
+    if(!token){
+      setLoading(false);
+    }
+  }, [])
 
   const togglePassword = () =>{
     setIsPasswordVisible(!isPasswordVisible);
@@ -45,7 +55,7 @@ export default function Login() {
     setShowToast(!showToast);
   };
 
-  return (
+  return loading? ( Loader ) : (
     <>
       <div className="bg-white border rounded-sm border-stroke shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="flex flex-wrap items-center">
