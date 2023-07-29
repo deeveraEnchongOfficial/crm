@@ -21,14 +21,6 @@ export default function Login() {
     setIsPasswordVisible(!isPasswordVisible);
   }
 
-  useEffect(() => {
-    // Check if user is already authenticated
-    const token = localStorage.getItem("token");
-    if (token) {
-      router.replace("/"); // Redirect to dashboard if authenticated
-    }
-  }, [router]);
-
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
