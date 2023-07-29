@@ -14,14 +14,6 @@ export default function Login() {
   const [showToast, setShowToast] = useState<boolean>(false);
   const [alertType, setAlertType] = useState<string>("");
 
-  useEffect(() => {
-    // Check if user is already authenticated
-    const token = localStorage.getItem("token");
-    if (token) {
-      router.replace("/"); // Redirect to dashboard if authenticated
-    }
-  }, [router]);
-
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     handleToast();
