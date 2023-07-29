@@ -1,8 +1,29 @@
 import Link from "next/link";
 import Image from "next/image";
 import NEXT_LOGO from '@/images/logo/NEXT_LOGO.png';
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { signup } from "@/hooks/useAuth";
 
-export default function Login() {
+export default function Signup() {
+  const [fullname, setFullname] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [password_confirmation, setPasswordC] = useState<string>("");
+  const [alertMessage, setAlertMessage] = useState<string>("")
+
+  const handleSignup = async (e: React.FormEvent) =>{
+    e.preventDefault();
+    if(password===password_confirmation){
+      try{
+        const { message } = await signup(fullname, email, password, password_confirmation)
+      }catch(err){
+        console.log(err)
+      }
+    }else{
+      setAlertMessage('Password do not match')
+    }
+  }
 
   return (
     <>
@@ -24,7 +45,7 @@ export default function Login() {
                 Sign Up
               </h2>
 
-              <form>
+              <form onSubmit={handleSignup}>
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
                     Name
@@ -32,6 +53,8 @@ export default function Login() {
                   <div className="relative">
                     <input
                       type="text"
+                      value={fullname}
+                      onChange={(e)=>setFullname(e.target.value)}
                       placeholder="Enter your full name"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
@@ -67,6 +90,8 @@ export default function Login() {
                   <div className="relative">
                     <input
                       type="email"
+                      value={email}
+                      onChange={(e)=>setEmail(e.target.value)}
                       placeholder="Enter your email"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
@@ -98,6 +123,8 @@ export default function Login() {
                   <div className="relative">
                     <input
                       type="password"
+                      value={password}
+                      onChange={(e)=>setPassword(e.target.value)}
                       placeholder="Enter your password"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
@@ -133,6 +160,8 @@ export default function Login() {
                   <div className="relative">
                     <input
                       type="password"
+                      value={password_confirmation}
+                      onChange={(e)=>setPasswordC(e.target.value)}
                       placeholder="Re-enter your password"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
@@ -164,6 +193,7 @@ export default function Login() {
                 <div className="mb-5">
                   <input
                     type="submit"
+                    onClick={handleSignup}
                     value="Create account"
                     className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
                   />
