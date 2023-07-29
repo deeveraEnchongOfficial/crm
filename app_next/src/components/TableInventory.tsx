@@ -22,11 +22,11 @@ const TableInventory = () => {
    
  return (
   <>
-    <div className='flex justify-between justify-center content-center h-0'>
-      <h4 className="mb-6 ml-3 text-xl font-semibold dark:text-white">
+    <div className='flex justify-between justify-center content-center h-0 mb-1'>
+      <h4 className="mb-6 ml-3 text-xl font-semibold dark:text-white mt-2">
         Transactions list
       </h4>
-        <div className="w-40 h-10 p-4 text-white transition border rounded-lg cursor-pointer border-primary bg-primary flex items-center mb-10 hover:bg-opacity-90">Custom Inventory</div>
+        <button className="w-16 h-8 p-4 text-white transition border rounded-lg cursor-pointer border-primary bg-primary flex items-center mb-10 hover:bg-opacity-90">Add</button>
     </div>
     <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       <div className="flex flex-col">
