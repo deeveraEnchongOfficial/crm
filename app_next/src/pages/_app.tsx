@@ -1,7 +1,8 @@
 import { Suspense, lazy, useEffect, useState } from 'react';
+import Head from 'next/head'
 import { useRouter } from "next/router";
 import { AppProps } from "next/app";
-import { getToken } from "@/hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 import DefaultLayout from "@/../layout/DefaultLayout";
 import "../../styles/tailwind.css";
 import Loader from "@/common/Loader";
@@ -20,38 +21,39 @@ import Loader from "@/common/Loader";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
+  const currentPath = router.pathname;
   const [layout, setLayout] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const currentRoute = router.pathname;
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
-    const fetchToken = async () => {
-      setLoading(true); // Set the loading state to true
+    console.log("running effect");
+    if(!isAuthenticated && (currentPath == '/auth/login' || currentPath == '/auth/signup')){
+      setLoading(false);
+      setLayout(false);
+    }
 
-      const token = await getToken();
-
-      if (token) {
-        setLayout(true);
-      }else{
-        setLoading(true);
-        setLayout(false);
-        router.push('/auth/login'); // Redirect to the login page if the token is not present
-        setLoading(false);
-      }
-
-      setLoading(false); // Set the loading state back to false
-    };
-
-    fetchToken();
-  }, [currentRoute]);
+    if(isAuthenticated){
+      setLoading(false);
+      setLayout(true);
+    }
+  }, [currentPath, isAuthenticated]);
 
   return loading ? (
     <Loader />
   ) : (
-    <DefaultLayout show={layout}>
-      <Component {...pageProps} />
-    </DefaultLayout>
+    <>
+      <Head>
+        <title>upNext</title>
+        {/* Add the favicon */}
+        {/* <link rel="icon" href="/favicon.ico" /> */}
+        {/* Add other meta tags, styles, or scripts here if needed */}
+      </Head>
+      <DefaultLayout show={layout}>
+        <Component {...pageProps} />
+      </DefaultLayout>
+    </>
   );
 }
 
