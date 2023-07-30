@@ -9,14 +9,14 @@ export default function Signup() {
   const [fullname, setFullname] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [password_confirmation, setPasswordC] = useState<string>("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState<string>("");
   const [alertMessage, setAlertMessage] = useState<string>("")
 
   const handleSignup = async (e: React.FormEvent) =>{
     e.preventDefault();
-    if(password===password_confirmation){
+    if(password===passwordConfirmation){
       try{
-        const { message } = await signup(fullname, email, password, password_confirmation)
+        const { message } = await signup(fullname, email, password, passwordConfirmation)
       }catch(err){
         console.log(err)
       }
@@ -160,8 +160,8 @@ export default function Signup() {
                   <div className="relative">
                     <input
                       type="password"
-                      value={password_confirmation}
-                      onChange={(e)=>setPasswordC(e.target.value)}
+                      value={passwordConfirmation}
+                      onChange={(e)=>setPasswordConfirmation(e.target.value)}
                       placeholder="Re-enter your password"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
