@@ -5,14 +5,14 @@ import { useState } from "react";
 
 export default function Login() {
   const[isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
-  const[isPasswordVisible1, setIsPasswordVisible1] = useState<boolean>(false);
+  const[isPasswordCorfirmVisible, setPasswordConfirmVisible] = useState<boolean>(false);
 
   const togglePassword = () =>{
     setIsPasswordVisible(!isPasswordVisible);
   }
 
-  const togglePassword1 = () =>{
-    setIsPasswordVisible1(!isPasswordVisible1);
+  const togglePasswordConfirm = () =>{
+    setPasswordConfirmVisible(!isPasswordCorfirmVisible);
   }
 
   return (
@@ -165,16 +165,16 @@ export default function Login() {
                   </label>
                   <div className="relative">
                     <input
-                      type={isPasswordVisible1 ? "text" : "password"}
+                      type={isPasswordCorfirmVisible ? "text" : "password"}
                       placeholder="Re-enter your password"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
 
                     <div
                       className="absolute inset-y-0 right-0 flex items-center px-4 text-gray-600"
-                      onClick={togglePassword1}
+                      onClick={togglePasswordConfirm}
                     >
-                      {isPasswordVisible1 ? (
+                      {isPasswordCorfirmVisible ? (
                         <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
