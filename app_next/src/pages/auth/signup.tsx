@@ -4,6 +4,7 @@ import NEXT_LOGO from '@/images/logo/NEXT_LOGO.png';
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { signup } from "@/hooks/useAuth";
+import LoadingButton from "@/components/LoadingButton";
 
 export default function Signup() {
   const [fullname, setFullname] = useState<string>("");
@@ -11,14 +12,19 @@ export default function Signup() {
   const [password, setPassword] = useState<string>("");
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>("");
   const [alertMessage, setAlertMessage] = useState<string>("")
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
 
   const handleSignup = async (e: React.FormEvent) =>{
     e.preventDefault();
     if(password===passwordConfirmation){
       try{
+        setIsLoading(true)
         const { message } = await signup(fullname, email, password, passwordConfirmation)
       }catch(err){
         console.log(err)
+      }finally{
+        setIsLoading(false)
       }
     }else{
       setAlertMessage('Password do not match')
@@ -191,12 +197,12 @@ export default function Signup() {
                 </div>
 
                 <div className="mb-5">
-                  <input
-                    type="submit"
+                  <LoadingButton
+                    isLoading={isLoading}
                     onClick={handleSignup}
-                    value="Create account"
                     className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
-                  />
+                  >Create Account
+                  </LoadingButton>
                 </div>
                 <div className="mt-6 text-center">
                   <p>
