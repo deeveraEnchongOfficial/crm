@@ -18,6 +18,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\URL;
 use App\Http\Requests\UserRegisterRequest;
 use Illuminate\Support\Facades\Redirect;
+use App\Http\Requests\LoginRequest;
 
 class AuthController extends Controller
 {
@@ -111,9 +112,10 @@ class AuthController extends Controller
     /**
      * Login The User
      *
-     * @return User
+     * @param  \App\Http\Requests\LoginRequest  $request
+     * @return \Illuminate\Http\Response
      */
-    public function loginUser(Request $request)
+    public function loginUser(LoginRequest $request)
     {
         try {
             $credentials = $request->only(['email', 'password']);
