@@ -36,7 +36,9 @@ class AuthController extends Controller
         try {
             // Validate the request data
             $validator = Validator::make($request->all(), [
-                'name' => 'required|string|max:255',
+                'first_name' => 'required|string|max:255',
+                'middle_name' => 'nullable',
+                'last_name' => 'required|string|max:255',
                 'email' => 'required|email|max:255|unique:users',
                 'password' => 'required|string|min:8|confirmed',
             ]);
@@ -50,7 +52,9 @@ class AuthController extends Controller
             }
 
             $data = [
-                'name' => $request->name,
+                'first_name' => $request->first_name,
+                'middle_name' => $request->middle_name,
+                'last_name' => $request->last_name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'remember_token' => Str::random(10), // Generate a verification token
@@ -198,7 +202,9 @@ class AuthController extends Controller
         try {
             // Validate the request data
             $validator = Validator::make($request->all(), [
-                'name' => 'required',
+                'first_name' => 'required|string|max:255',
+                'middle_name' => 'nullable',
+                'last_name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email,' . $request->user()->id,
                 'role' => 'nullable|numeric',
                 'password' => 'nullable',
@@ -216,7 +222,9 @@ class AuthController extends Controller
             $user = $request->user();
 
             $data = [
-                'name' => $request->input('name'),
+                'first_name' => $request->input('first_name'),
+                'middle_name' => $request->input('middle_name'),
+                'last_name' => $request->input('last_name'),
                 'email' => $request->input('email'),
             ];
 
