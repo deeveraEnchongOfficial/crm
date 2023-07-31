@@ -8,7 +8,8 @@ import { logout } from "@/hooks/useAuth";
 
 const DropdownUser = () => {
   interface User {
-    name: string;
+    firstName: string;
+    lastName: string;
     role: number;
     image: Blob;
     // Other properties
@@ -18,6 +19,8 @@ const DropdownUser = () => {
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [user, setUser] = useState<User | undefined>(undefined);
+  const [firstname, setFirstname] = useState<string | undefined>("");
+  const [lastname, setLastname] = useState<string | undefined>("")
 
   const trigger = useRef<any>(null);
   const dropdown = useRef<any>(null);
@@ -32,6 +35,12 @@ const DropdownUser = () => {
       });
   }, []);
 
+  useEffect(()=>{
+    setFirstname(user?.firstName);
+    setLastname(user?.lastName);
+  }, [user])
+  console.log("firstname:", firstname)
+  console.log("lastname:", lastname)
   // close on click outside
   useEffect(() => {
     const clickHandler = ({ target }: MouseEvent) => {
@@ -68,7 +77,7 @@ const DropdownUser = () => {
       console.log("Logout failed:", error);
     }
   };
-
+ 
   return (
     <div className="relative">
       <Link
@@ -79,7 +88,7 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            {user?.name}
+            {user?.firstName}
           </span>
           <span className="block text-xs">{user?.role}</span>
         </span>
