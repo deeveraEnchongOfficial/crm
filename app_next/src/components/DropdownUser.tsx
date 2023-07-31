@@ -30,8 +30,6 @@ const DropdownUser = () => {
     getUser()
       .then((data) => {
         setUser(data.user);
-        setFirstname(user?.firstName);
-        setLastname(user?.lastName);
       })
       .catch((error) => {
         console.error("Failed to get User:", error);
@@ -43,8 +41,6 @@ const DropdownUser = () => {
     setLastname(user?.lastName);
   }, [user])
 
-  console.log("firstname:", firstname)
-  console.log("lastname:", lastname)
   // close on click outside
   useEffect(() => {
     const clickHandler = ({ target }: MouseEvent) => {
