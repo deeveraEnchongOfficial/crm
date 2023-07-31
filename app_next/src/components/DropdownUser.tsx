@@ -5,6 +5,7 @@ import Image from "next/image";
 import { getUser } from "@/hooks/useUser";
 import Default_Profile_pic from "../images/user/Default_Profile_pic.png";
 import { logout } from "@/hooks/useAuth";
+import DefaultAvatar from "./DefaultAvatar"
 
 const DropdownUser = () => {
   interface User {
@@ -29,6 +30,8 @@ const DropdownUser = () => {
     getUser()
       .then((data) => {
         setUser(data.user);
+        setFirstname(user?.firstName);
+        setLastname(user?.lastName);
       })
       .catch((error) => {
         console.error("Failed to get User:", error);
@@ -39,6 +42,7 @@ const DropdownUser = () => {
     setFirstname(user?.firstName);
     setLastname(user?.lastName);
   }, [user])
+
   console.log("firstname:", firstname)
   console.log("lastname:", lastname)
   // close on click outside
@@ -102,12 +106,7 @@ const DropdownUser = () => {
               alt="User"
             />
           ) : (
-            <Image
-              src={Default_Profile_pic}
-              height={200}
-              width={200}
-              alt="Default User"
-            />
+            <DefaultAvatar firstName={firstname} lastName={lastname}/>
           )}
         </span>
 
