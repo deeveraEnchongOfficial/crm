@@ -12,8 +12,7 @@ const DropdownUser = () => {
     name: string,
     role: number;
     image: Blob;
-    
-    // Other properties
+       // Other properties
   }
 
   const router = useRouter();
@@ -27,7 +26,7 @@ const DropdownUser = () => {
   useEffect(() => {
     getUser()
       .then((data) => {
-        const{firstName, lastName} = data?.user;
+        const{firstName, lastName} = data.user;
         setFirstname(firstName); 
         setLastname(lastName);
       })
