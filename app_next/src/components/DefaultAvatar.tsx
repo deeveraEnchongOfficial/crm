@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
 
 interface AvatarProps{
-    firstName: undefined | string,
-    lastName: undefined | string,
+    firstName: string,
+    lastName: string,
 }
 const DefaultAvatar: React.FC<AvatarProps> = (firstName, lastName) => {
-    let fNameInitial = firstName.firstName?.charAt(0);
-    let lNameInitial = firstName.lastName?.charAt(0);
-    
+   
+    const firstNameInitial = firstName.firstName.charAt(0);
+    const lastNameInitial = firstName.lastName.charAt(0);
+
+    const initials = firstNameInitial+lastNameInitial; 
     return(
         <div className="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-meta-9 rounded-full dark:bg-gray-600">
-            <span className="font-medium text-gray-600 dark:text-gray-300">{fNameInitial+lNameInitial}</span>
+            <span className="font-medium text-gray-600 dark:text-gray-300">{initials}</span>
         </div>
     )
 };

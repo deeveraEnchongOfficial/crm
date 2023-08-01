@@ -9,10 +9,10 @@ import DefaultAvatar from "./DefaultAvatar"
 
 const DropdownUser = () => {
   interface User {
-    firstName: string;
-    lastName: string;
+    name: string,
     role: number;
     image: Blob;
+    
     // Other properties
   }
 
@@ -20,26 +20,22 @@ const DropdownUser = () => {
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [user, setUser] = useState<User | undefined>(undefined);
-  const [firstname, setFirstname] = useState<string | undefined>("");
-  const [lastname, setLastname] = useState<string | undefined>("")
-
   const trigger = useRef<any>(null);
   const dropdown = useRef<any>(null);
-
+  const [firstname, setFirstname] = useState<string>("")
+  const [lastname, setLastname] = useState<string>("")
   useEffect(() => {
     getUser()
       .then((data) => {
-        setUser(data.user);
+        const{firstName, lastName} = data?.user;
+        setFirstname(firstName); 
+        setLastname(lastName);
       })
       .catch((error) => {
         console.error("Failed to get User:", error);
       });
   }, []);
 
-  useEffect(()=>{
-    setFirstname(user?.firstName);
-    setLastname(user?.lastName);
-  }, [user])
 
   // close on click outside
   useEffect(() => {
@@ -77,7 +73,7 @@ const DropdownUser = () => {
       console.log("Logout failed:", error);
     }
   };
- 
+  
   return (
     <div className="relative">
       <Link
@@ -88,7 +84,7 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            {user?.firstName}
+            {user?.name}
           </span>
           <span className="block text-xs">{user?.role}</span>
         </span>
