@@ -5,7 +5,7 @@ import Image from "next/image";
 import { getUser } from "@/hooks/useUser";
 import Default_Profile_pic from "../images/user/Default_Profile_pic.png";
 import { logout } from "@/hooks/useAuth";
-import DefaultAvatar from "./DefaultAvatar"
+import DefaultAvatar from "@/components/DefaultAvatar"
 
 const DropdownUser = () => {
   interface User {
