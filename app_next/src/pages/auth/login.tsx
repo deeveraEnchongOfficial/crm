@@ -16,18 +16,24 @@ export default function Login() {
   const [alertType, setAlertType] = useState<string>("");
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isEmailError, setIsEmailError] = useState<boolean>(false);
+  const [isPasswordError, setIsPasswordError] = useState<boolean>(false);
+  const [emailError, setEmailError] = useState<string>("");
 
   const togglePassword = () =>{
     setIsPasswordVisible(!isPasswordVisible);
   }
 
+  const Validator = () =>{
+    
+  }
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       setIsLoading(true);
       handleToast();
-      const { token, message } = await login(email, password);
-  
+      const { token, message, validator } = await login(email, password);
+      setEmailError(validator);
       if (token) {
         setAlertMessage(message);
         setAlertType("success");
@@ -46,7 +52,7 @@ export default function Login() {
   const handleToast = () => {
     setShowToast(!showToast);
   };
-
+  console.log(emailError)
   return (
     <>
       <div className="bg-white border rounded-sm border-stroke shadow-default dark:border-strokedark dark:bg-boxdark">
