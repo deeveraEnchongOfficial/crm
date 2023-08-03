@@ -87,20 +87,38 @@ class AuthController extends Controller
 
     public function verifyUser(Request $request)
     {
-        $user = User::where('email', $request->email)->first();
+        $email = $request->query('email');
+        $rememberToken = $request->query('remember_token');
 
-        if (!$user) {
+        if (!$email || !$rememberToken) {
             return response()->json([
                 'status' => false,
                 'message' => 'Invalid verification token.',
             ], 400);
         }
 
+        $user = User::where('email', $email)->first();
+
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'message' => 'User not found.',
+            ], 404);
+        }
+
         // Check if the remember_token matches the request token
-        if ($user->remember_token !== $request->remember_token) {
+        if (!hash_equals($user->remember_token, $rememberToken)) {
             return response()->json([
                 'status' => false,
                 'message' => 'Invalid verification token.',
+            ], 400);
+        }
+
+        // Check if the user is already verified
+        if ($user->email_verified_at !== null) {
+            return response()->json([
+                'status' => false,
+                'message' => 'User already verified.',
             ], 400);
         }
 
@@ -109,7 +127,7 @@ class AuthController extends Controller
         $user->remember_token = Str::random(10);
         $user->save();
 
-        // Redirect to the login page
+        // Redirect to the login page (you can customize the redirect URL in your .env file)
         return Redirect::away(Config::get('app.redirect_url'));
     }
 

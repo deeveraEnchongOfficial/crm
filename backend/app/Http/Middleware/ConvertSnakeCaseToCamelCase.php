@@ -15,23 +15,27 @@ class ConvertSnakeCaseToCamelCase
 
     public function handle(Request $request, Closure $next)
     {
-        $request->replace(
+        $request->merge(
             $this->convertKeysToCase(
                 self::CASE_SNAKE,
-                $request->post()
+                $request->all()
             )
         );
+
         $response = $next($request);
+
         if ($response instanceof JsonResponse) {
             $response->setData(
                 $this->convertKeysToCase(
                     self::CASE_CAMEL,
-                    json_decode($response->content(), true)
+                    json_decode($response->getContent(), true)
                 )
             );
         }
+
         return $response;
     }
+
     private function convertKeysToCase(string $case, $data)
     {
         if (!is_array($data)) {
@@ -47,6 +51,6 @@ class ConvertSnakeCaseToCamelCase
         }
 
         return $array;
-
     }
 }
+
