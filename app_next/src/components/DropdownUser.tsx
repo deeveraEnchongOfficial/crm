@@ -5,32 +5,36 @@ import Image from "next/image";
 import { getUser } from "@/hooks/useUser";
 import Default_Profile_pic from "../images/user/Default_Profile_pic.png";
 import { logout } from "@/hooks/useAuth";
+import DefaultAvatar from "@/components/DefaultAvatar"
 
 const DropdownUser = () => {
   interface User {
-    name: string;
+    name: string,
     role: number;
     image: Blob;
-    // Other properties
+       // Other properties
   }
 
   const router = useRouter();
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [user, setUser] = useState<User | undefined>(undefined);
-
   const trigger = useRef<any>(null);
   const dropdown = useRef<any>(null);
-
+  const [firstname, setFirstname] = useState<string>("")
+  const [lastname, setLastname] = useState<string>("")
   useEffect(() => {
     getUser()
       .then((data) => {
-        setUser(data.user);
+        const{firstName, lastName} = data.user;
+        setFirstname(firstName); 
+        setLastname(lastName);
       })
       .catch((error) => {
         console.error("Failed to get User:", error);
       });
   }, []);
+
 
   // close on click outside
   useEffect(() => {
@@ -68,7 +72,7 @@ const DropdownUser = () => {
       console.log("Logout failed:", error);
     }
   };
-
+  
   return (
     <div className="relative">
       <Link
@@ -93,12 +97,7 @@ const DropdownUser = () => {
               alt="User"
             />
           ) : (
-            <Image
-              src={Default_Profile_pic}
-              height={200}
-              width={200}
-              alt="Default User"
-            />
+            <DefaultAvatar firstName={firstname} lastName={lastname}/>
           )}
         </span>
 
