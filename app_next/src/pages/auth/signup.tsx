@@ -19,6 +19,7 @@ export default function Signup() {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
   const [isPasswordCorfimationVisible, setIsPasswordConfirmationVisible] = useState<boolean>(false)
 
+
   const togglePassword = () => {
     setIsPasswordVisible(!isPasswordVisible)
   }
