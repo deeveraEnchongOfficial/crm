@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ContactsController;
 use App\Http\Controllers\Api\InquiriesController;
 use App\Http\Controllers\Api\InventoryController;
@@ -23,17 +24,18 @@ Route::middleware(['convert.snake.case'])->group(function () {
     Route::get('/auth/verify', [AuthController::class, 'verifyUser'])->name('verify.user');
     Route::post('/auth/login', [AuthController::class, 'loginUser']);
     Route::post('/auth/logout', [AuthController::class, 'logoutUser'])->middleware('auth:sanctum');
-    Route::get('/user', [AuthController::class, 'getCurrentUser'])->middleware('auth:sanctum');
-    Route::post('/user/update', [AuthController::class, 'updateUser'])->middleware('auth:sanctum');
+    Route::get('/owner', [AuthController::class, 'getCurrentUser'])->middleware('auth:sanctum');
+    Route::post('/owner/update', [AuthController::class, 'updateOwner'])->middleware('auth:sanctum');
 });
 
 Route::middleware(['convert.snake.case', 'auth:sanctum', 'role:' . User::ROLE_ADMIN])->group(function () {
     // Admin routes
+    Route::apiResource('/users', UserController::class);
     Route::apiResource('/inquiries', InquiriesController::class);
     Route::apiResource('/contacts', ContactsController::class);
-    Route::resource('/inventories', InventoryController::class);
+    Route::apiResource('/inventories', InventoryController::class);
     Route::post('/inventories/purchase', [InventoryController::class, 'purchase']);
-    Route::resource('/purchased', PurchasedController::class);
+    Route::apiResource('/purchased', PurchasedController::class);
     Route::post('/purchased/process', [PurchasedController::class, 'processPurchasedItems']);
 });
 

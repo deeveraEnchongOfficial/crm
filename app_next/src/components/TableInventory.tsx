@@ -9,15 +9,26 @@ import { useEffect, useState } from "react";
 import { getTransactions } from "@/hooks/useInventories";
 import Pagination from "@/components/Pagination";
 
+interface Transaction {
+  id: number;
+  itemName: string;
+  price: number;
+  quantity: number;
+}
+
 const TableInventory = () => {
-  const [transactions, setTransactions] = useState([]);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [perPage, setPerPage] = useState<number>(10);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [total, setTotal] = useState<number>(1);
+  const [search, setSearch] = useState<string>();
 
   useEffect(() => {
-    getTransactions().then((data) => {
-      setTransactions(data.inventories);
+    getTransactions(search, currentPage, perPage).then((data) => {
+      setTransactions(data?.data || []);
+      setTotal(data?.total);
     });
-  }, []);
+  }, [search, currentPage, perPage]);
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
@@ -25,11 +36,11 @@ const TableInventory = () => {
 
   return (
     <>
-      <div className="flex justify-between justify-center content-center h-0 mb-1">
-        <h4 className="mb-6 ml-3 text-xl font-semibold dark:text-white mt-2">
+      <div className="flex content-center justify-center justify-between h-0 mb-1">
+        <h4 className="mt-2 mb-6 ml-3 text-xl font-semibold dark:text-white">
           Transactions list
         </h4>
-        <button className="w-16 h-8 p-4 text-white transition border rounded-lg cursor-pointer border-primary bg-primary flex items-center mb-10 hover:bg-opacity-90">
+        <button className="flex items-center w-16 h-8 p-4 mb-10 text-white transition border rounded-lg cursor-pointer border-primary bg-primary hover:bg-opacity-90">
           Add
         </button>
       </div>
@@ -62,27 +73,27 @@ const TableInventory = () => {
               </h5>
             </div>
           </div>
-          {transactions.map((data) => {
+          {transactions?.map((data) => {
             return (
-              <ul key={data}>
+              <ul key={data?.id}>
                 {
                   <div className="grid grid-cols-3 border-b border-stroke dark:border-strokedark sm:grid-cols-5">
                     <div className="flex items-center justify-center p-2.5 xl:p-3 font-bold">
                       <p className="text-black dark:text-white">
-                        {data.itemName}
+                        {data?.itemName}
                       </p>
                     </div>
 
                     <div className="flex items-center justify-center p-2.5 xl:p-2">
-                      <p className="text-black dark:text-white">{data.price}</p>
+                      <p className="text-black dark:text-white">{data?.price}</p>
                     </div>
 
                     <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-2">
-                      <p className="">{data.quantity}</p>
+                      <p className="">{data?.quantity}</p>
                     </div>
 
                     <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-2">
-                      <p className="items-center justify-center text-center font-semibold text-meta-3 border-solid bg-meta-9 rounded-full w-15 ">
+                      <p className="items-center justify-center font-semibold text-center border-solid rounded-full text-meta-3 bg-meta-9 w-15 ">
                         Paid
                       </p>
                     </div>
@@ -106,7 +117,7 @@ const TableInventory = () => {
                         width="20"
                         height="20"
                         fill="currentColor"
-                        className="bi bi-trash ml-4"
+                        className="ml-4 bi bi-trash"
                         viewBox="0 0 16 16"
                       >
                         {" "}
@@ -123,8 +134,8 @@ const TableInventory = () => {
             );
           })}
           <Pagination
-            total={100}
-            perPage={5}
+            total={total}
+            perPage={perPage}
             currentPage={currentPage}
             updatePage={handlePageChange}
           />

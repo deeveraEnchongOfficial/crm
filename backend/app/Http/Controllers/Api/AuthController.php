@@ -2,23 +2,22 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Config;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use App\Repositories\UserRepository;
-use App\Http\Requests\RegisterUserRequest;
-use App\Notifications\UserVerificationNotification;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\URL;
-use App\Http\Requests\UserRegisterRequest;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use App\Notifications\UserVerificationNotification;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\UserRegisterRequest;
 use App\Http\Requests\LoginRequest;
+use App\Repositories\UserRepository;
+use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -31,26 +30,9 @@ class AuthController extends Controller
     }
 
 
-    public function createUser(Request $request)
+    public function createUser(UserRegisterRequest $request)
     {
         try {
-            // Validate the request data
-            $validator = Validator::make($request->all(), [
-                'first_name' => 'required|string|max:255',
-                'middle_name' => 'nullable',
-                'last_name' => 'required|string|max:255',
-                'email' => 'required|email|max:255|unique:users',
-                'password' => 'required|string|min:8|confirmed',
-            ]);
-
-            if ($validator->fails()) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Validation error',
-                    'errors' => $validator->errors(),
-                ], 422);
-            }
-
             $data = [
                 'first_name' => $request->first_name,
                 'middle_name' => $request->middle_name,
@@ -198,24 +180,7 @@ class AuthController extends Controller
         }
     }
 
-    public function getCurrentUser()
-    {
-        $user = Auth::user();
-
-        if ($user) {
-            // User is logged in
-            return response()->json([
-                'user' => $user,
-            ]);
-        } else {
-            // User is not logged in
-            return response()->json([
-                'message' => 'User not logged in',
-            ], 401);
-        }
-    }
-
-    public function updateUser(Request $request)
+    public function updateOwner(Request $request)
     {
         try {
             // Validate the request data
@@ -271,6 +236,23 @@ class AuthController extends Controller
                 'status' => false,
                 'message' => $th->getMessage(),
             ], 500);
+        }
+    }
+
+    public function getCurrentUser()
+    {
+        $user = Auth::user();
+
+        if ($user) {
+            // User is logged in
+            return response()->json([
+                'user' => $user,
+            ]);
+        } else {
+            // User is not logged in
+            return response()->json([
+                'message' => 'User not logged in',
+            ], 401);
         }
     }
 }

@@ -15,10 +15,10 @@ const Pagination: React.FC<PaginationProps> = ({
 }) => {
   const start = (currentPage - 1) * perPage + 1;
   const totalPages = Math.ceil(total / perPage);
-  const [end, setEnd] = useState<number>(currentPage * perPage);
+  let end = currentPage * perPage;
 
   if (end > total) {
-    setEnd(total);
+    end = total;
   }
 
   const pages: any[] = [];
@@ -42,7 +42,7 @@ const Pagination: React.FC<PaginationProps> = ({
 
   return (
     <nav
-      className="flex items-center justify-between py-4 px-2 md:px-4"
+      className="flex items-center justify-between px-2 py-4 md:px-4"
       aria-label="Table navigation"
     >
       <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
@@ -55,12 +55,12 @@ const Pagination: React.FC<PaginationProps> = ({
           {total} items
         </span>
       </span>
-      <ul className="inline-flex -space-x-px text-sm h-8">
+      <ul className="inline-flex h-8 -space-x-px text-sm">
         <li>
           <button
             disabled={currentPage <= 1}
             onClick={() => changePage(currentPage - 1)}
-            className="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-black dark:hover:bg-gray-700 dark:hover:text-white"
+            className="flex items-center justify-center h-8 px-3 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-black dark:hover:bg-gray-700 dark:hover:text-white"
             aria-label="Previous"
           >
             Previous
@@ -87,7 +87,7 @@ const Pagination: React.FC<PaginationProps> = ({
           <button
             disabled={currentPage >= totalPages}
             onClick={() => changePage(currentPage + 1)}
-            className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-black dark:hover:bg-gray-700 dark:hover:text-white"
+            className="flex items-center justify-center h-8 px-3 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-black dark:hover:bg-gray-700 dark:hover:text-white"
             aria-label="Next"
           >
             Next

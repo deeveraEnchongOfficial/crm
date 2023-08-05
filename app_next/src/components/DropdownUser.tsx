@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
-import { getUser } from "@/hooks/useUser";
+import { getOwner } from "@/hooks/useUser";
 import Default_Profile_pic from "../images/user/Default_Profile_pic.png";
 import { logout } from "@/hooks/useAuth";
 import DefaultAvatar from "@/components/DefaultAvatar"
@@ -24,7 +24,7 @@ const DropdownUser = () => {
   const [firstname, setFirstname] = useState<string>("")
   const [lastname, setLastname] = useState<string>("")
   useEffect(() => {
-    getUser()
+    getOwner()
       .then((data) => {
         const{firstName, lastName} = data.user;
         setFirstname(firstName); 

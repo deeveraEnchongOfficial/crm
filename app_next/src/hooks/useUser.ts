@@ -1,10 +1,10 @@
 import appNext from '@/../axiosConfig';
 import { getToken } from '@/hooks/useAuth'
 
-export const getUser = async (): Promise<any> => {
+export const getOwner = async (): Promise<any> => {
   const token = getToken();
   try {
-    const response = await appNext.get('/api/user', {
+    const response = await appNext.get('/api/owner', {
       headers: {
         Authorization: `Bearer ${token}`
       },
@@ -14,5 +14,13 @@ export const getUser = async (): Promise<any> => {
     console.error('Failed to get User data:', error);
     throw error;
   }
+};
+
+export const getAllUsers = () => {
+  //
+};
+
+export const getUserById = () => {
+  //
 };
 

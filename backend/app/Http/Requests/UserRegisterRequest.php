@@ -6,7 +6,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginRequest extends FormRequest
+class UserRegisterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,8 +26,11 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email',
-            'password' => 'required|string|min:8',
+            'first_name' => 'required|string|max:255',
+            'middle_name' => 'nullable|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
         ];
     }
 
@@ -54,10 +57,15 @@ class LoginRequest extends FormRequest
     public function messages()
     {
         return [
+            'first_name.required' => 'The first name field is required.',
+            'last_name.required' => 'The last name field is required.',
             'email.required' => 'The email field is required.',
-            'email.email' => 'The email must be a valid email address.',
+            'email.email' => 'Please provide a valid email address.',
+            'email.max' => 'The email address must not exceed :max characters.',
+            'email.unique' => 'The email address is already in use.',
             'password.required' => 'The password field is required.',
             'password.min' => 'The password must be at least :min characters.',
+            'password.confirmed' => 'The password confirmation does not match.',
         ];
     }
 }

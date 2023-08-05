@@ -16,13 +16,21 @@ class InventoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $inventories = Inventory::all();
+        $search = $request->input('search');
+        $query = Inventory::query();
 
-        return response()->json([
-            'inventories' => $inventories,
-        ]);
+        if (!empty($search)) {
+            $query->where(function ($query) use ($search) {
+                $query->where('name', 'LIKE', '%' . $search . '%')
+                    ->orWhere('email', 'LIKE', '%' . $search . '%');
+            });
+        }
+
+        $inventory = $query->orderBy('created_at', 'DESC')->paginate($request->perPage);
+
+        return response()->json($inventory);
     }
 
     /**
