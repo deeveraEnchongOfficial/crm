@@ -9,7 +9,29 @@ const DefaultAvatar: React.FC<AvatarProps> = ({ firstName, lastName }) => {
   const initials = firstNameInitial + lastNameInitial;
 
   const getColorFromInitials = (initials: any) => {
-    const colors = ["#EF476F", "#118AB2", "#FFD166", "#06D6A0", "#073B4C"]; // Add more colors as needed
+    const colors = [
+      "#EF476F", // Red
+      "#118AB2", // Blue
+      "#FFD166", // Yellow
+      "#06D6A0", // Green
+      "#073B4C", // Dark Blue
+      "#FF7F50", // Coral
+      "#2E8B57", // Sea Green
+      "#FF1493", // Deep Pink
+      "#800080", // Purple
+      "#DC143C", // Crimson
+      "#4B0082", // Indigo
+      "#FF4500", // Orange Red
+      "#32CD32", // Lime Green
+      "#9370DB", // Medium Purple
+      "#FF69B4", // Hot Pink
+      "#20B2AA", // Light Sea Green
+      "#FF6347", // Tomato
+      "#808000", // Olive
+      "#BA55D3", // Medium Orchid
+      "#00FF00", // Lime
+      // Add more colors as needed
+    ];
     const charCodeSum = initials
       .split("")
       .reduce((acc: string, char: string) => acc + char.charCodeAt(0), 0);
