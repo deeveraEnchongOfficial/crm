@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import Default_Profile_pic from "../images/user/Default_Profile_pic.png";
+import Default_Profile_pic from "@/images/user/Default_Profile_pic.png";
 
 const TaskHeader = () => {
   const [popupOpen, setPopupOpen] = useState(false);

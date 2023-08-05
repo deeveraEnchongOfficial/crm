@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-import Default_Profile_pic from "../images/user/Default_Profile_pic.png";
+import Default_Profile_pic from "@/images/user/Default_Profile_pic.png";
 
 const DropdownMessage = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);

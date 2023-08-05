@@ -1,4 +1,5 @@
-const defaultTheme = require('tailwindcss/defaultTheme')
+// const defaultTheme = require('tailwindcss/defaultTheme')
+import defaultTheme from "tailwindcss/defaultTheme";
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -206,10 +207,11 @@ module.exports = {
         65: '.65',
       },
       backgroundImage: {
-        video: "url('../images/video/video.png')",
+        video: "url('@/images/video/video.png')",
+        
       },
       content: {
-        'icon-copy': 'url("../images/icon/icon-copy-alt.svg")',
+        'icon-copy': 'url("@/images/icon/icon-copy-alt.svg")',
       },
       transitionProperty: { width: 'width', stroke: 'stroke' },
       borderWidth: {

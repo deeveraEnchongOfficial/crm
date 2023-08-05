@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import up_next from '@/images/logo/up_next.png';
-import DarkModeSwitcher from './DarkModeSwitcher';
-import DropdownMessage from './DropdownMessage';
-import DropdownNotification from './DropdownNotification';
-import DropdownUser from './DropdownUser';
+import DarkModeSwitcher from '../DarkModeSwitcher';
+import DropdownMessage from '@/components/Dropdowns/DropdownMessage';
+import DropdownNotification from '@/components/Dropdowns/DropdownNotification';
+import DropdownUser from '@/components/Dropdowns/DropdownUser';
 
 const Header = (props: {
   sidebarOpen: string | boolean | undefined;
