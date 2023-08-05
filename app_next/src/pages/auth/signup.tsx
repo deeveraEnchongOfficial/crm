@@ -64,7 +64,7 @@ export default function Signup() {
               </h2>
 
               <form onSubmit={handleSignup}>
-                <div className="flex justify-between">
+                <div className="grid grid-flow-col justify-stretch">
                   <div className="mb-4">
                     <label className="mb-2.5 block font-medium text-black dark:text-white">
                       First Name
@@ -102,8 +102,7 @@ export default function Signup() {
                     </div>
                   </div>
 
-              
-                  <div className="mb-4">
+                  <div className="mb-4 ml-4">
                     <label className="mb-2.5 block font-medium text-black dark:text-white">
                       Middle Name
                     </label>
@@ -139,6 +138,7 @@ export default function Signup() {
                       </span>
                     </div>
                   </div>
+
                 </div>
                 <div className="mb-4">
                     <label className="mb-2.5 block font-medium text-black dark:text-white">
@@ -208,7 +208,7 @@ export default function Signup() {
                     </span>
                   </div>
                 </div>
-                <div className="flex justify-between">
+                <div className="grid grid-flow-col justify-stretch">
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
                     Password
@@ -265,7 +265,7 @@ export default function Signup() {
                   </div>
                 </div>
                 
-                <div className="mb-6">
+                <div className="mb-6 ml-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
                     Re-type Password
                   </label>
