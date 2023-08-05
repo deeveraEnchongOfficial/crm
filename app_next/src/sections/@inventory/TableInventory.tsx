@@ -1,12 +1,6 @@
-import { list } from "postcss";
-import BrandOne from "../images/brand/brand-01.svg";
-import BrandTwo from "../images/brand/brand-02.svg";
-import BrandThree from "../images/brand/brand-03.svg";
-import BrandFour from "../images/brand/brand-04.svg";
-import BrandFive from "../images/brand/brand-05.svg";
-import { data } from "autoprefixer";
 import { useEffect, useState } from "react";
-import { getTransactions } from "@/hooks/useInventories";
+import Link from "next/link";
+import { getInventories } from "@/hooks/useInventories";
 import Pagination from "@/components/Pagination";
 
 interface Transaction {
@@ -24,7 +18,7 @@ const TableInventory = () => {
   const [search, setSearch] = useState<string>();
 
   useEffect(() => {
-    getTransactions(search, currentPage, perPage).then((data) => {
+    getInventories(search, currentPage, perPage).then((data) => {
       setTransactions(data?.data || []);
       setTotal(data?.total);
     });
@@ -40,9 +34,11 @@ const TableInventory = () => {
         <h4 className="mt-2 mb-6 ml-3 text-xl font-semibold dark:text-white">
           Transactions list
         </h4>
-        <button className="flex items-center w-16 h-8 p-4 mb-10 text-white transition border rounded-lg cursor-pointer border-primary bg-primary hover:bg-opacity-90">
+        <Link href='/inventory/new'
+          className="flex items-center w-16 h-8 p-4 mb-10 text-white transition border rounded-lg cursor-pointer border-primary bg-primary hover:bg-opacity-90"
+          >
           Add
-        </button>
+        </Link>
       </div>
       <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
         <div className="flex flex-col">
@@ -85,7 +81,9 @@ const TableInventory = () => {
                     </div>
 
                     <div className="flex items-center justify-center p-2.5 xl:p-2">
-                      <p className="text-black dark:text-white">{data?.price}</p>
+                      <p className="text-black dark:text-white">
+                        {data?.price}
+                      </p>
                     </div>
 
                     <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-2">
@@ -99,18 +97,20 @@ const TableInventory = () => {
                     </div>
 
                     <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-2">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        fill="currentColor"
-                        className="bi bi-eye"
-                        viewBox="0 0 16 16"
-                      >
-                        {" "}
-                        <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />{" "}
-                        <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />{" "}
-                      </svg>
+                      <Link href={`/inventory/${data.id}`}>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          fill="currentColor"
+                          className="bi bi-eye"
+                          viewBox="0 0 16 16"
+                        >
+                          {" "}
+                          <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />{" "}
+                          <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />{" "}
+                        </svg>
+                      </Link>
 
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

@@ -59,7 +59,16 @@ class InventoryController extends Controller
      */
     public function show($id)
     {
-        //
+        // Find the inventory item by its ID
+        $inventory = Inventory::find($id);
+
+        // Check if the inventory item exists
+        if (!$inventory) {
+            return response()->json(['message' => 'Inventory item not found'], 404);
+        }
+
+        // Return the JSON response for the inventory item
+        return response()->json($inventory);
     }
 
     /**

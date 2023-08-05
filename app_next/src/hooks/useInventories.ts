@@ -1,7 +1,7 @@
 import appNext from '@/../axiosConfig';
 import { getToken } from '@/hooks/useAuth';
 
-export const getTransactions = async (search?: string, currentPage?: number, perPage?: number): Promise<any> => {  
+export const getInventories = async (search?: string, currentPage?: number, perPage?: number): Promise<any> => {  
     const token = getToken();
     try {
         const params: any = {}; // Initialize an empty object to store the query parameters
@@ -26,6 +26,23 @@ export const getTransactions = async (search?: string, currentPage?: number, per
                 Authorization: `Bearer ${token}`
             },
             params, // Pass the query parameters to the API call
+        });
+
+        return response.data;
+    } catch (err) {
+        console.error(err);
+        throw err;
+    }
+};
+
+export const getInventoryById = async (id: number): Promise<any> => {  
+    const token = getToken();
+    try {
+
+        const response = await appNext.get(`/api/inventories/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
         });
 
         return response.data;

@@ -1,5 +1,5 @@
 import Breadcrumb from '@/components/Breadcrumb';
-import TableInventory from '@/components/TableInventory';
+import TableInventory from '@/sections/@inventory/TableInventory';
 
 const Tables = () => {
   return (
