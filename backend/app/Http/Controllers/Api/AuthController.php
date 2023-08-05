@@ -18,6 +18,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\URL;
 use App\Http\Requests\UserRegisterRequest;
 use Illuminate\Support\Facades\Redirect;
+use App\Http\Requests\LoginRequest;
 
 class AuthController extends Controller
 {
@@ -35,7 +36,9 @@ class AuthController extends Controller
         try {
             // Validate the request data
             $validator = Validator::make($request->all(), [
-                'name' => 'required|string|max:255',
+                'first_name' => 'required|string|max:255',
+                'middle_name' => 'nullable',
+                'last_name' => 'required|string|max:255',
                 'email' => 'required|email|max:255|unique:users',
                 'password' => 'required|string|min:8|confirmed',
             ]);
@@ -49,7 +52,9 @@ class AuthController extends Controller
             }
 
             $data = [
-                'name' => $request->name,
+                'first_name' => $request->first_name,
+                'middle_name' => $request->middle_name,
+                'last_name' => $request->last_name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'remember_token' => Str::random(10), // Generate a verification token
@@ -82,20 +87,38 @@ class AuthController extends Controller
 
     public function verifyUser(Request $request)
     {
-        $user = User::where('email', $request->email)->first();
+        $email = $request->query('email');
+        $rememberToken = $request->query('remember_token');
 
-        if (!$user) {
+        if (!$email || !$rememberToken) {
             return response()->json([
                 'status' => false,
                 'message' => 'Invalid verification token.',
             ], 400);
         }
 
+        $user = User::where('email', $email)->first();
+
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'message' => 'User not found.',
+            ], 404);
+        }
+
         // Check if the remember_token matches the request token
-        if ($user->remember_token !== $request->remember_token) {
+        if (!hash_equals($user->remember_token, $rememberToken)) {
             return response()->json([
                 'status' => false,
                 'message' => 'Invalid verification token.',
+            ], 400);
+        }
+
+        // Check if the user is already verified
+        if ($user->email_verified_at !== null) {
+            return response()->json([
+                'status' => false,
+                'message' => 'User already verified.',
             ], 400);
         }
 
@@ -104,16 +127,17 @@ class AuthController extends Controller
         $user->remember_token = Str::random(10);
         $user->save();
 
-        // Redirect to the login page
+        // Redirect to the login page (you can customize the redirect URL in your .env file)
         return Redirect::away(Config::get('app.redirect_url'));
     }
 
     /**
      * Login The User
      *
-     * @return User
+     * @param  \App\Http\Requests\LoginRequest  $request
+     * @return \Illuminate\Http\Response
      */
-    public function loginUser(Request $request)
+    public function loginUser(LoginRequest $request)
     {
         try {
             $credentials = $request->only(['email', 'password']);
@@ -196,7 +220,9 @@ class AuthController extends Controller
         try {
             // Validate the request data
             $validator = Validator::make($request->all(), [
-                'name' => 'required',
+                'first_name' => 'required|string|max:255',
+                'middle_name' => 'nullable',
+                'last_name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email,' . $request->user()->id,
                 'role' => 'nullable|numeric',
                 'password' => 'nullable',
@@ -214,7 +240,9 @@ class AuthController extends Controller
             $user = $request->user();
 
             $data = [
-                'name' => $request->input('name'),
+                'first_name' => $request->input('first_name'),
+                'middle_name' => $request->input('middle_name'),
+                'last_name' => $request->input('last_name'),
                 'email' => $request->input('email'),
             ];
 

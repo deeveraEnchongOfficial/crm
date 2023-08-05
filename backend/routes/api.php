@@ -18,24 +18,16 @@ use App\Models\User;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::post('/auth/register', [AuthController::class, 'createUser']);
-Route::get('/auth/verify', [AuthController::class, 'verifyUser'])->name('verify.user');
-Route::post('/auth/login', [AuthController::class, 'loginUser']);
-Route::post('/auth/logout', [AuthController::class, 'logoutUser'])->middleware('auth:sanctum');
-Route::get('/user', [AuthController::class, 'getCurrentUser'])->middleware('auth:sanctum');
-Route::post('/user/update', [AuthController::class, 'updateUser'])->middleware('auth:sanctum');
+Route::middleware(['convert.snake.case'])->group(function () {
+    Route::post('/auth/register', [AuthController::class, 'createUser'])->middleware('convert.snake.case');
+    Route::get('/auth/verify', [AuthController::class, 'verifyUser'])->name('verify.user');
+    Route::post('/auth/login', [AuthController::class, 'loginUser']);
+    Route::post('/auth/logout', [AuthController::class, 'logoutUser'])->middleware('auth:sanctum');
+    Route::get('/user', [AuthController::class, 'getCurrentUser'])->middleware('auth:sanctum');
+    Route::post('/user/update', [AuthController::class, 'updateUser'])->middleware('auth:sanctum');
+});
 
-// Route::middleware('auth:sanctum')->group(function () {
-//     Route::apiResource('/inquiries', InquiriesController::class);
-//     Route::apiResource('/contacts', ContactsController::class);
-// });
-
-// Route::apiResource('posts', PostController::class)->middleware('auth:sanctum');
-
-// Route::apiResource('/inquiries', InquiriesController::class);
-
-
-Route::middleware(['auth:sanctum', 'role:' . User::ROLE_ADMIN])->group(function () {
+Route::middleware(['convert.snake.case', 'auth:sanctum', 'role:' . User::ROLE_ADMIN])->group(function () {
     // Admin routes
     Route::apiResource('/inquiries', InquiriesController::class);
     Route::apiResource('/contacts', ContactsController::class);
@@ -45,7 +37,7 @@ Route::middleware(['auth:sanctum', 'role:' . User::ROLE_ADMIN])->group(function 
     Route::post('/purchased/process', [PurchasedController::class, 'processPurchasedItems']);
 });
 
-Route::middleware(['auth:sanctum', 'role:' . User::ROLE_USER])->group(function () {
+Route::middleware(['convert.snake.case', 'auth:sanctum', 'role:' . User::ROLE_USER])->group(function () {
     // Editor and Author routes
     // Route::apiResource('/contacts', ContactsController::class);
 });

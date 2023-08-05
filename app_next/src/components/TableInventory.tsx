@@ -69,7 +69,7 @@ const TableInventory = () => {
                   <div className="grid grid-cols-3 border-b border-stroke dark:border-strokedark sm:grid-cols-5">
                     <div className="flex items-center justify-center p-2.5 xl:p-3 font-bold">
                       <p className="text-black dark:text-white">
-                        {data.item_name}
+                        {data.itemName}
                       </p>
                     </div>
 

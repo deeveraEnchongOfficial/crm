@@ -2,8 +2,18 @@ import appNext from '@/../axiosConfig';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
-export const login = async (email: string, password: string): Promise<{token: null | string, message: string }> => {
+export const signup = async (firstName: string, middleName: string, lastName: string, email: string, password: string, password_confirmation: string): Promise<{message: string}> =>{
+  try{
+    const response = await appNext.post('api/auth/register', { firstName, middleName, lastName, email, password, password_confirmation });
+    const { message } = response.data;
+    return { message };
+  } catch(error: any){
+    const message = typeof error === 'string' ? error : error?.response?.data.message || "An error occured";
+    return { message: message }
+  }
+};
 
+export const login = async (email: string, password: string): Promise<{token: null | string, message: string }> => {
   try {
     const response = await appNext.post('/api/auth/login', { email, password });
     const { token, message } = response.data;

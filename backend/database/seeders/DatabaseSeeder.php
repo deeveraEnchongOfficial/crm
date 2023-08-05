@@ -16,7 +16,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         \App\Models\User::factory()->create([
-            'name' => 'admin',
+            'first_name' => 'Super',
+            'last_name' => 'Admin',
             'email' => 'admin@admin.com',
             'password' => Hash::make('admin123'),
             'role' => 1,
@@ -24,7 +25,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         \App\Models\User::factory()->create([
-            'name' => 'user',
+            'first_name' => 'User',
+            'last_name' => 'Only',
             'email' => 'user@user.com',
             'password' => Hash::make('user123'),
             'role' => 0,

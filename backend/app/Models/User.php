@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -19,9 +18,19 @@ class User extends Authenticatable
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var array<string, mixed>
      */
-    protected $guarded = ['id'];
+    protected $fillable = [
+        'first_name',
+        'middle_name',
+        'last_name',
+        'email',
+        'password',
+        'remember_token',
+        'email_verified_at',
+        'role',
+        'image',
+    ];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -42,21 +51,42 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * Check if the user is an admin.
+     *
+     * @return bool
+     */
     public function isAdmin()
     {
         return $this->role === self::ROLE_ADMIN;
     }
 
+    /**
+     * Check if the user is a regular user.
+     *
+     * @return bool
+     */
     public function isUser()
     {
         return $this->role === self::ROLE_USER;
     }
 
+    /**
+     * Check if the user has any of the given roles.
+     *
+     * @param array<int> $roles
+     * @return bool
+     */
     public function hasAnyRole(array $roles)
     {
         return in_array($this->role, $roles);
     }
 
+    /**
+     * Get the purchased items for the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function purchasedItems()
     {
         return $this->hasMany(Purchased::class);
