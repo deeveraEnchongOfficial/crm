@@ -1,9 +1,11 @@
+import Image from "next/image";
 import { list } from 'postcss';
-import BrandOne from '../images/brand/brand-01.svg';
-import BrandTwo from '../images/brand/brand-02.svg';
-import BrandThree from '../images/brand/brand-03.svg';
-import BrandFour from '../images/brand/brand-04.svg';
-import BrandFive from '../images/brand/brand-05.svg';
+import BrandOne from '@/images/brand/brand-01.svg';
+import BrandTwo from '@/images/brand/brand-02.svg';
+import BrandThree from '@/images/brand/brand-03.svg';
+import BrandFour from '@/images/brand/brand-04.svg';
+import BrandFive from '@/images/brand/brand-05.svg';
+
 
 const TableOne = () => {
 
@@ -86,10 +88,10 @@ const TableOne = () => {
         </div>
         {
           brandInformation.map((data)=>{
-           return <ul key={data}>{<div className="grid grid-cols-3 border-b border-stroke dark:border-strokedark sm:grid-cols-5">
+           return <ul key={data.sales}>{<div className="grid grid-cols-3 border-b border-stroke dark:border-strokedark sm:grid-cols-5">
             <div className="flex items-center gap-3 p-2.5 xl:p-5">
              <div className="flex-shrink-0">
-               <img src={data.logo} height={40} width={40} alt="Brand" />
+               <img src={data?.logo} height={40} width={40} alt="Brand" />
              </div>
              <p className="hidden text-black dark:text-white sm:block">{data.company}</p>
            </div>

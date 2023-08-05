@@ -1,7 +1,7 @@
 import Breadcrumb from '@/components/Breadcrumb';
-import TableOne from '@/components/TableOne';
-import TableThree from '@/components/TableThree';
-import TableTwo from '@/components/TableTwo';
+import TableOne from '@/components/Tables/TableOne';
+import TableThree from '@/components/Tables/TableThree';
+import TableTwo from '@/components/Tables/TableTwo';
 
 const Tables = () => {
   return (

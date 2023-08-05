@@ -50,7 +50,7 @@ const Table = () => {
               </div>
                 </td>
                 <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Apple MacBook Pro 17"
+                    Apple MacBook Pro 17
                 </th>
                 <td className="px-6 py-4">
                     Silver
@@ -72,11 +72,11 @@ const Table = () => {
           Showing <span className="font-semibold text-gray-900 dark:text-white">1-10</span> of{' '}
           <span className="font-semibold text-gray-900 dark:text-white">1000</span>
         </span>
-        <ul className="inline-flex -space-x-px text-sm h-8">
+        <ul className="inline-flex h-8 -space-x-px text-sm">
           <li>
             <a
               href="#"
-              className="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              className="flex items-center justify-center h-8 px-3 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
             >
               Previous
             </a>
