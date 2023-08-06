@@ -24,24 +24,72 @@ export default function Signup() {
   const [lastNameAlert, setLastNameAlert] = useState<string>("");
   const [emailAlert, setEmailAlert] = useState<string>("");
   const [passwordAlert, setPasswordAlert ] = useState<string>(""); 
+  const [passwordConfirmationAlert, setPasswordConfirmationAlert] = useState<string>("")
 
   const [isFirstNameErr, setIsFirstNameErr] = useState<boolean>(false);
+  const [isLastNameErr, setIsLastNameErr] = useState<boolean>(false);
+  const [isEmailErr, setIsEmailErr] = useState<boolean>(false);
+  const [isPasswordErr, setIsPasswordErr] = useState<boolean>(false);
+  const [isPassworConfirmationErr, setIsPasswordConfirmationErr] = useState<boolean>(false);
   
   const togglePassword = () => {
     setIsPasswordVisible(!isPasswordVisible)
   }
 
   const validator = ()=>{
-    if(firstNameAlert==undefined){
-      setIsFirstNameErr(false)
+    if(firstNameAlert!==undefined){
+      if(firstNameAlert===""){
+        setIsFirstNameErr(false)
+      }else{
+        setIsFirstNameErr(true)
+      }
     }else{
-      setIsFirstNameErr(true)
+      setIsFirstNameErr(false)
+    }
+    if(lastNameAlert!==undefined){
+      if(lastNameAlert===""){
+        setIsLastNameErr(false)
+      }else{
+        setIsLastNameErr(true)
+      }
+    }else{
+      setIsLastNameErr(false)
+    }
+    if(emailAlert!==undefined){
+      if(emailAlert===""){
+        setIsEmailErr(false)
+      }else{
+        setIsEmailErr(true)
+      }
+    }else{
+      setIsEmailErr(false)
+    }
+    if(passwordAlert!==undefined){
+      if(passwordAlert===""){
+        setIsPasswordErr(false)
+      }else{
+        setIsPasswordErr(true)
+      }
+    }else{
+      setIsPasswordErr(false)
     }
   }
 
   useEffect(()=>{
       validator()
   }, [firstNameAlert])
+
+  useEffect(()=>{
+    validator()
+  }, [lastNameAlert])
+
+  useEffect(()=>{
+    validator()
+  }, [emailAlert])
+
+  useEffect(()=>{
+    validator()
+  }, [passwordAlert])
 
   const togglePasswordConfirmation = () => {
     setIsPasswordConfirmationVisible(!isPasswordCorfimationVisible)
@@ -51,8 +99,12 @@ export default function Signup() {
     e.preventDefault();
       try {
         setIsLoading(true)
-        const { message, firstName1, lastName1} = await signup(firstName, middleName, lastName, email, password, passwordConfirmation)
-        setFirstNameAlert(firstName1)
+        const { message, firstNameMessage, lastNameMessage, emailMessage, passwordMessage} = await signup(firstName, middleName, lastName, email, password, passwordConfirmation)
+        setFirstNameAlert(firstNameMessage)
+        setLastNameAlert(lastNameMessage)
+        setEmailAlert(emailMessage)
+        setPasswordAlert(passwordMessage)
+
       } catch (err) {
         console.log(err)
       } finally {
@@ -60,6 +112,7 @@ export default function Signup() {
       }
   }
 
+  console.log(isFirstNameErr)
   return (
     <>
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -90,9 +143,9 @@ export default function Signup() {
                       <input
                         type="text"
                         value={firstName}
-                        placeholder=" "
+                        placeholder=""
                         onChange={(e) => setFirstName(e.target.value)}
-                        className={isFirstNameErr? "block px-2.5 pb-2.5 pt-4 rounded-lg  w-full py-4 pl-6 pr-10 text-gray-900 bg-transparent rounded-lg border-2 border-meta-1 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer":"block px-2.5 pb-2.5 pt-4 rounded-lg  w-full py-4 pl-6 pr-10 text-gray-900 bg-transparent rounded-lg border-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"} />
+                        className="block px-2.5 pb-2.5 pt-4 rounded-lg  w-full py-4 pl-6 pr-10 text-gray-900 bg-transparent rounded-lg border-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" />
                       <label className="absolute text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-5 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-2">First Name</label>
                       <span className="absolute right-4 top-4">
                         <svg
@@ -116,8 +169,7 @@ export default function Signup() {
                         </svg>
                       </span>
                     </div>
-                    {isFirstNameErr ? <p className="mt-2 text-xs text-green-600 dark:text-green-400"><span className="font-medium">Snap! </span>{firstNameAlert}</p> : <></>}
-                    
+                    {isFirstNameErr ? <p className="mt-2 text-xs text-meta-1 dark:text-green-400"><span className="font-medium">Snap! </span>{firstNameAlert}</p> : <></>}
                   </div>
 
                   {/* MiddleName------------------------------------------------------------------------------ */}
@@ -153,7 +205,7 @@ export default function Signup() {
                         </svg>
                       </span>
                     </div>
-                    <p className="mt-2 text-xs text-green-600 dark:text-green-400"><span className="font-medium">Well done!</span> Some success message.</p>
+                    <p className="mt-2 text-xs text-green-600 dark:text-green-400"><b>Optional</b></p>
                   </div>
                 </div>
 
@@ -190,7 +242,7 @@ export default function Signup() {
                       </svg>
                     </span>
                   </div>
-                  <p className="mt-2 text-xs text-green-600 dark:text-green-400"><span className="font-medium">Well done!</span> Some success message.</p>
+                  {isLastNameErr? <p className="mt-2 text-xs text-meta-1 dark:text-green-400"><span className="font-medium">Snap! </span>{lastNameAlert}</p>: <></>}
                 </div>
 
                 {/* Email------------------------------------------------------------------------------ */}
@@ -222,10 +274,10 @@ export default function Signup() {
                       </svg>
                     </span>
                   </div>
-                  <p className="mt-2 text-xs text-green-600 dark:text-green-400"><span className="font-medium">Well done!</span> Some success message.</p>
+                  {isEmailErr ? <p className="mt-2 text-xs text-meta-1 dark:text-green-400"><span className="font-medium">Well done!</span>{emailAlert}</p>: <></>}
                 </div>
 
-                {/* Email------------------------------------------------------------------------------ */}
+         
 
 
                 <div className="grid grid-flow-col justify-stretch">
@@ -283,7 +335,7 @@ export default function Signup() {
                         )}
                       </div>
                     </div>
-                    <p className="mt-2 text-xs text-green-600 dark:text-green-400"><span className="font-medium">Well done!</span> Some success message.</p>
+                    {isPasswordErr ? <p className="mt-2 text-xs text-meta-1 dark:text-green-400"><span className="font-medium">Snap !</span>{passwordAlert}</p>: <></>}
                   </div>
 
                   {/* Password Confirmation------------------------------------------------------------------------------ */}
@@ -339,7 +391,7 @@ export default function Signup() {
                         )}
                       </div>
                     </div>
-                    <p className="mt-2 text-xs text-green-600 dark:text-green-400"><span className="font-medium">Well done!</span> Some success message.</p>
+                    {isPassworConfirmationErr? <p className="mt-2 text-xs text-green-600 dark:text-green-400"><span className="font-medium">Snap !</span>{passwordConfirmationAlert}</p>: <></>}
                   </div>
                 </div>
 
