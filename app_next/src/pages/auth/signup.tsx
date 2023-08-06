@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import NEXT_LOGO from '@/images/logo/NEXT_LOGO.png';
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { signup } from "@/hooks/useAuth";
 import LoadingButton from "@/components/LoadingButton";
 
@@ -19,10 +19,29 @@ export default function Signup() {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
   const [isPasswordCorfimationVisible, setIsPasswordConfirmationVisible] = useState<boolean>(false)
 
+  const [firstNameAlert, setFirstNameAlert] = useState<string>("");
+  const [middleNameAlert, setMiddleNameAlert] = useState<string>("");
+  const [lastNameAlert, setLastNameAlert] = useState<string>("");
+  const [emailAlert, setEmailAlert] = useState<string>("");
+  const [passwordAlert, setPasswordAlert ] = useState<string>(""); 
 
+  const [isFirstNameErr, setIsFirstNameErr] = useState<boolean>(false);
+  
   const togglePassword = () => {
     setIsPasswordVisible(!isPasswordVisible)
   }
+
+  const validator = ()=>{
+    if(firstNameAlert==undefined){
+      setIsFirstNameErr(false)
+    }else{
+      setIsFirstNameErr(true)
+    }
+  }
+
+  useEffect(()=>{
+      validator()
+  }, [firstNameAlert])
 
   const togglePasswordConfirmation = () => {
     setIsPasswordConfirmationVisible(!isPasswordCorfimationVisible)
@@ -30,27 +49,17 @@ export default function Signup() {
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === passwordConfirmation) {
       try {
         setIsLoading(true)
-        const { message } = await signup(firstName, middleName, lastName, email, password, passwordConfirmation)
+        const { message, firstName1, lastName1} = await signup(firstName, middleName, lastName, email, password, passwordConfirmation)
+        setFirstNameAlert(firstName1)
       } catch (err) {
         console.log(err)
       } finally {
         setIsLoading(false)
       }
-    } else {
-      setAlertMessage('Password do not match')
-    }
   }
 
-
-  console.log("fname: ", firstName)
-  console.log("mname: ", middleName)
-  console.log("lname: ", lastName)
-  console.log("Email: ", email)
-  console.log("password: ", password)
-  console.log("Rpassword: ", passwordConfirmation)
   return (
     <>
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -83,7 +92,7 @@ export default function Signup() {
                         value={firstName}
                         placeholder=" "
                         onChange={(e) => setFirstName(e.target.value)}
-                        className="block px-2.5 pb-2.5 pt-4 rounded-lg  w-full py-4 pl-6 pr-10 text-gray-900 bg-transparent rounded-lg border-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" />
+                        className={isFirstNameErr? "block px-2.5 pb-2.5 pt-4 rounded-lg  w-full py-4 pl-6 pr-10 text-gray-900 bg-transparent rounded-lg border-2 border-meta-1 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer":"block px-2.5 pb-2.5 pt-4 rounded-lg  w-full py-4 pl-6 pr-10 text-gray-900 bg-transparent rounded-lg border-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"} />
                       <label className="absolute text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-5 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-2">First Name</label>
                       <span className="absolute right-4 top-4">
                         <svg
@@ -107,7 +116,8 @@ export default function Signup() {
                         </svg>
                       </span>
                     </div>
-                    <p className="mt-2 text-xs text-green-600 dark:text-green-400"><span className="font-medium">Well done!</span> Some success message.</p>
+                    {isFirstNameErr ? <p className="mt-2 text-xs text-green-600 dark:text-green-400"><span className="font-medium">Snap! </span>{firstNameAlert}</p> : <></>}
+                    
                   </div>
 
                   {/* MiddleName------------------------------------------------------------------------------ */}
