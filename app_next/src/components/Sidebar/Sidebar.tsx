@@ -65,7 +65,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       }`}
     >
       {/* <!-- SIDEBAR HEADER --> */}
-      <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5 mr-auto ml-auto">
+      <div className="flex items-center justify-between px-6 py-5 ml-auto mr-auto lg:py-5">
         <Link href="/">
         <Image src={up_next} alt="Logo" width={200} height={200} />
         </Link>
@@ -96,7 +96,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 
       <div className="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar">
         {/* <!-- Sidebar Menu --> */}
-        <nav className="px-4 py-4 mt-5 lg:mt-9 lg:px-6">
+        <nav className="px-4 mt-5 lg:px-6">
           {/* <!-- Menu Group --> */}
           <div>
             <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
