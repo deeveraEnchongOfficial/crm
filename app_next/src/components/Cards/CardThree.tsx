@@ -1,5 +1,4 @@
-import { ArrowUpIcon } from '@heroicons/react/24/solid';
-import { ShoppingBagIcon } from "@heroicons/react/24/outline";
+import { ArrowUpIcon,ShoppingBagIcon } from '@heroicons/react/24/solid';
 
 const CardThree = () => {
   return (
