@@ -1,56 +1,89 @@
 import Link from "next/link";
 import Image from "next/image";
-import NEXT_LOGO from '@/images/logo/NEXT_LOGO.png';
+import NEXT_LOGO from "@/images/logo/NEXT_LOGO.png";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { signup } from "@/hooks/useAuth";
 import LoadingButton from "@/components/LoadingButton";
 
 export default function Signup() {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    middleName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    passwordConfirmation: "",
+  });
   const [firstName, setFirstName] = useState<string>("");
   const [middleName, setMiddleName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>("");
-  const [alertMessage, setAlertMessage] = useState<string>("")
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
-  const [isPasswordCorfimationVisible, setIsPasswordConfirmationVisible] = useState<boolean>(false)
+  const [alertMessage, setAlertMessage] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
+  const [isPasswordCorfimationVisible, setIsPasswordConfirmationVisible] =
+    useState<boolean>(false);
 
   const [firstNameAlert, setFirstNameAlert] = useState<string>("");
   const [lastNameAlert, setLastNameAlert] = useState<string>("");
   const [emailAlert, setEmailAlert] = useState<string>("");
-  const [passwordAlert, setPasswordAlert ] = useState<string>(""); 
-  const [passwordConfirmationAlert, setPasswordConfirmationAlert] = useState<string>("")
+  const [passwordAlert, setPasswordAlert] = useState<string>("");
+  const [passwordConfirmationAlert, setPasswordConfirmationAlert] =
+    useState<string>("");
 
   const togglePassword = () => {
-    setIsPasswordVisible(!isPasswordVisible)
-  }
- 
+    setIsPasswordVisible(!isPasswordVisible);
+  };
+
   const togglePasswordConfirmation = () => {
-    setIsPasswordConfirmationVisible(!isPasswordCorfimationVisible)
-  }
+    setIsPasswordConfirmationVisible(!isPasswordCorfimationVisible);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+    console.log("formData", formData);
+  };
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
-      try {
-        setIsLoading(true)
-        const { message, firstNameMessage, lastNameMessage, emailMessage, passwordMessage} = await signup(firstName, middleName, lastName, email, password, passwordConfirmation)
-        setFirstNameAlert(firstNameMessage)
-        setLastNameAlert(lastNameMessage)
-        setEmailAlert(emailMessage)
-        setPasswordAlert(passwordMessage)
-      } catch (err) {
-        console.log(err)
-      } finally {
-        setIsLoading(false)
-      }
-  }
+    console.log("formData", formData);
+    try {
+      setIsLoading(true);
+      const {
+        message,
+        firstNameMessage,
+        lastNameMessage,
+        emailMessage,
+        passwordMessage,
+      } = await signup(
+        formData.firstName,
+        formData.middleName,
+        formData.lastName,
+        formData.email,
+        formData.password,
+        formData.passwordConfirmation
+      );
+      setFirstNameAlert(firstNameMessage);
+      setLastNameAlert(lastNameMessage);
+      setEmailAlert(emailMessage);
+      setPasswordAlert(passwordMessage);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <>
-      <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+      <div className="bg-white border rounded-sm border-stroke shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="flex flex-wrap items-center">
           <div className="hidden w-full xl:block xl:w-1/2">
             <div className="py-17.5 px-26 text-center">
@@ -63,23 +96,26 @@ export default function Signup() {
           <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
               <span className="mb-1.5 block font-medium">Start for free</span>
-              <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
+              <h2 className="text-2xl font-bold text-black mb-9 dark:text-white sm:text-title-xl2">
                 Sign Up
               </h2>
               <form onSubmit={handleSignup}>
-                
-                  {/* FirstName------------------------------------------------------------------------------ */}
+                {/* FirstName------------------------------------------------------------------------------ */}
 
-                  <div className="grid grid-flow-col justify-stretch">
+                <div className="grid grid-flow-col justify-stretch">
                   <div className="mb-4">
                     <div className="relative">
                       <input
                         type="text"
-                        value={firstName}
+                        name="firstName"
+                        value={formData.firstName}
                         placeholder=""
-                        onChange={(e) => setFirstName(e.target.value)}
-                        className="block px-2.5 pb-2.5 pt-4 rounded-lg  w-full py-4 pl-6 pr-10 text-gray-900 bg-transparent rounded-lg border-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" />
-                      <label className="absolute text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-5 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-2">First Name</label>
+                        onChange={handleChange}
+                        className="block px-2.5 pb-2.5 pt-4 rounded-lg  w-full py-4 pl-6 pr-10 text-gray-900 bg-transparent rounded-lg border-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                      />
+                      <label className="absolute text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-5 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-2">
+                        First Name
+                      </label>
                       <span className="absolute right-4 top-4">
                         <svg
                           className="fill-current"
@@ -102,7 +138,9 @@ export default function Signup() {
                         </svg>
                       </span>
                     </div>
-                     <p className="mt-2 text-xs text-meta-1 dark:text-green-400"><span className="font-medium">{firstNameAlert}</span></p> 
+                    <p className="mt-2 text-xs text-meta-1 dark:text-green-400">
+                      <span className="font-medium">{firstNameAlert}</span>
+                    </p>
                   </div>
 
                   {/* MiddleName------------------------------------------------------------------------------ */}
@@ -111,11 +149,15 @@ export default function Signup() {
                     <div className="relative">
                       <input
                         type="text"
-                        value={middleName}
+                        name="middleName"
+                        value={formData.middleName}
                         placeholder=" "
-                        onChange={(e) => setMiddleName(e.target.value)}
-                        className="block px-2.5 pb-2.5 pt-4 rounded-lg  w-full py-4 pl-6 pr-10 text-gray-900 bg-transparent rounded-lg border-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" />
-                      <label className="absolute text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-5 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-2">Middle Name</label>
+                        onChange={handleChange}
+                        className="block px-2.5 pb-2.5 pt-4 rounded-lg  w-full py-4 pl-6 pr-10 text-gray-900 bg-transparent rounded-lg border-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                      />
+                      <label className="absolute text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-5 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-2">
+                        Middle Name
+                      </label>
                       <span className="absolute right-4 top-4">
                         <svg
                           className="fill-current"
@@ -138,7 +180,6 @@ export default function Signup() {
                         </svg>
                       </span>
                     </div>
-                    <p className="mt-2 text-xs text-green-600 dark:text-green-400"><b>Optional</b></p>
                   </div>
                 </div>
 
@@ -148,11 +189,15 @@ export default function Signup() {
                   <div className="relative">
                     <input
                       type="text"
-                      value={lastName}
+                      name="lastName"
+                      value={formData.lastName}
                       placeholder=" "
-                      onChange={(e) => setLastName(e.target.value)}
-                      className="block px-2.5 pb-2.5 pt-4 rounded-lg  w-full py-4 pl-6 pr-10 text-gray-900 bg-transparent rounded-lg border-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" />
-                    <label className="absolute text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-5 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-2">Last Name</label>
+                      onChange={handleChange}
+                      className="block px-2.5 pb-2.5 pt-4 rounded-lg  w-full py-4 pl-6 pr-10 text-gray-900 bg-transparent rounded-lg border-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    />
+                    <label className="absolute text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-5 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-2">
+                      Last Name
+                    </label>
                     <span className="absolute right-4 top-4">
                       <svg
                         className="fill-current"
@@ -175,7 +220,9 @@ export default function Signup() {
                       </svg>
                     </span>
                   </div>
-                 <p className="mt-2 text-xs text-meta-1 dark:text-green-400"><span className="font-medium">{lastNameAlert}</span></p>
+                  <p className="mt-2 text-xs text-meta-1 dark:text-green-400">
+                    <span className="font-medium">{lastNameAlert}</span>
+                  </p>
                 </div>
 
                 {/* Email------------------------------------------------------------------------------ */}
@@ -184,11 +231,15 @@ export default function Signup() {
                   <div className="relative">
                     <input
                       type="email"
-                      value={email}
+                      name="email"
+                      value={formData.email}
                       placeholder=""
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="block px-2.5 pb-2.5 pt-4 rounded-lg  w-full py-4 pl-6 pr-10 text-gray-900 bg-transparent rounded-lg border-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" />
-                    <label className="absolute text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-5 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-2">Email</label>
+                      onChange={handleChange}
+                      className="block px-2.5 pb-2.5 pt-4 rounded-lg  w-full py-4 pl-6 pr-10 text-gray-900 bg-transparent rounded-lg border-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    />
+                    <label className="absolute text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-5 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-2">
+                      Email
+                    </label>
                     <span className="absolute right-4 top-4">
                       <svg
                         className="fill-current"
@@ -207,22 +258,31 @@ export default function Signup() {
                       </svg>
                     </span>
                   </div>
-                  <p className="mt-2 text-xs text-meta-1 dark:text-green-400"><span className="font-medium">{emailAlert}</span></p>
+                  <p className="mt-2 text-xs text-meta-1 dark:text-green-400">
+                    <span className="font-medium">{emailAlert}</span>
+                  </p>
                 </div>
-            
-                  {/* Password------------------------------------------------------------------------------ */}
 
-                  <div className="grid grid-flow-col justify-stretch">
+                {/* Password------------------------------------------------------------------------------ */}
+
+                <div className="grid grid-flow-col justify-stretch">
                   <div className="mb-4">
                     <div className="relative">
                       <input
-                        type={isPasswordVisible? "text":"password"}
-                        value={password}
+                        type={isPasswordVisible ? "text" : "password"}
+                        name="password"
+                        value={formData.password}
                         placeholder=" "
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="block px-2.5 pb-2.5 pt-4 rounded-lg  w-full py-4 pl-6 pr-10 text-gray-900 bg-transparent rounded-lg border-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" />
-                      <label className="absolute text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-5 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-2">Password</label>
-                      <div className="absolute right-4 top-4" onClick={togglePassword}>
+                        onChange={handleChange}
+                        className="block px-2.5 pb-2.5 pt-4 rounded-lg  w-full py-4 pl-6 pr-10 text-gray-900 bg-transparent rounded-lg border-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                      />
+                      <label className="absolute text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-5 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-2">
+                        Password
+                      </label>
+                      <div
+                        className="absolute right-4 top-4"
+                        onClick={togglePassword}
+                      >
                         {isPasswordVisible ? (
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -236,7 +296,6 @@ export default function Signup() {
                             <path
                               strokeLinecap="round"
                               strokeLinejoin="round"
-
                               d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
                             />
                             <path
@@ -264,7 +323,9 @@ export default function Signup() {
                         )}
                       </div>
                     </div>
-                    <p className="mt-2 text-xs text-meta-1 dark:text-green-400"><span className="font-medium">{passwordAlert}</span></p>
+                    <p className="mt-2 text-xs text-meta-1 dark:text-green-400">
+                      <span className="font-medium">{passwordAlert}</span>
+                    </p>
                   </div>
 
                   {/* Password Confirmation------------------------------------------------------------------------------ */}
@@ -272,13 +333,22 @@ export default function Signup() {
                   <div className="mb-4 ml-4">
                     <div className="relative">
                       <input
-                        type={isPasswordCorfimationVisible? "text": "password"}
-                        value={passwordConfirmation}
+                        type={
+                          isPasswordCorfimationVisible ? "text" : "password"
+                        }
+                        name="passwordConfirmation"
+                        value={formData.passwordConfirmation}
                         placeholder=" "
-                        onChange={(e) => setPasswordConfirmation(e.target.value)}
-                        className="block px-2.5 pb-2.5 pt-4 rounded-lg  w-full py-4 pl-6 pr-10 text-gray-900 bg-transparent rounded-lg border-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" />
-                      <label className="absolute text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-5 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-2">Re-enter Password</label>
-                      <div className="absolute right-4 top-4" onClick={togglePasswordConfirmation}>
+                        onChange={handleChange}
+                        className="block px-2.5 pb-2.5 pt-4 rounded-lg  w-full py-4 pl-6 pr-10 text-gray-900 bg-transparent rounded-lg border-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                      />
+                      <label className="absolute text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-5 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-2">
+                        Re-enter Password
+                      </label>
+                      <div
+                        className="absolute right-4 top-4"
+                        onClick={togglePasswordConfirmation}
+                      >
                         {isPasswordCorfimationVisible ? (
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -292,7 +362,6 @@ export default function Signup() {
                             <path
                               strokeLinecap="round"
                               strokeLinejoin="round"
-
                               d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
                             />
                             <path
@@ -320,7 +389,11 @@ export default function Signup() {
                         )}
                       </div>
                     </div>
-                    <p className="mt-2 text-xs text-green-600 dark:text-green-400"><span className="font-medium">{passwordConfirmationAlert}</span></p>
+                    <p className="mt-2 text-xs text-green-600 dark:text-green-400">
+                      <span className="font-medium">
+                        {passwordConfirmationAlert}
+                      </span>
+                    </p>
                   </div>
                 </div>
 
@@ -328,13 +401,14 @@ export default function Signup() {
                   <LoadingButton
                     isLoading={isLoading}
                     onClick={handleSignup}
-                    className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
-                  >Create Account
+                    className="w-full p-4 text-white transition border rounded-lg cursor-pointer border-primary bg-primary hover:bg-opacity-90"
+                  >
+                    Create Account
                   </LoadingButton>
                 </div>
                 <div className="mt-6 text-center">
                   <p>
-                    Already have an account?{' '}
+                    Already have an account?{" "}
                     <Link href="/auth/login" className="text-primary">
                       Sign in
                     </Link>
@@ -347,5 +421,4 @@ export default function Signup() {
       </div>
     </>
   );
-
 }
