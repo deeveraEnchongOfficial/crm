@@ -14,15 +14,16 @@ export const signup = async (firstName: string, middleName: string, lastName: st
   }
 };
 
-export const login = async (email: string, password: string): Promise<{token: null | string, message: string, validator: any | null }> => {
+export const login = async (email: string, password: string): Promise<{token: null | string, message: string, emailMessage: any, passwordMessage: any}> => {
   try {
     const response = await appNext.post('/api/auth/login', { email, password });
-    const { token, message, validator } = response.data;
+    const { token, message } = response.data;
     localStorage.setItem('token', token );
-    return { token, message, validator};
+    return { token, message, emailMessage:"", passwordMessage: ""};
   } catch (error: any) {
     const message = typeof error === 'string' ? error : error?.response?.data.message || "An error occured";
-    return {token: null, message: message, validator: error.response.data.data.email[0]}
+    const { email, password } = typeof error?.response?.data.data === 'object' ?  error?.response?.data.data :  error?.response?.data.data ||"An error occured";
+    return {token: null, message: message, emailMessage: email, passwordMessage: password}
   }
   
 };

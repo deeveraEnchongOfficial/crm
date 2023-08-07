@@ -16,9 +16,8 @@ export default function Login() {
   const [alertType, setAlertType] = useState<string>("");
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isEmailError, setIsEmailError] = useState<boolean>(false);
-  const [isPasswordError, setIsPasswordError] = useState<boolean>(false);
-  const [emailError, setEmailError] = useState<string>("");
+  const [emailAlert, setEmailAlert] = useState<string>("");
+  const [passwordAlert, setPasswordAlert] = useState<string>("");
 
   const togglePassword = () =>{
     setIsPasswordVisible(!isPasswordVisible);
@@ -32,8 +31,9 @@ export default function Login() {
     try {
       setIsLoading(true);
       handleToast();
-      const { token, message, validator } = await login(email, password);
-      setEmailError(validator);
+      const { token, message, emailMessage, passwordMessage } = await login(email, password);
+      setEmailAlert(emailMessage)
+      setPasswordAlert(passwordMessage)
       if (token) {
         setAlertMessage(message);
         setAlertType("success");
@@ -52,7 +52,6 @@ export default function Login() {
   const handleToast = () => {
     setShowToast(!showToast);
   };
-  console.log(emailError)
   return (
     <>
       <div className="bg-white border rounded-sm border-stroke shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -127,6 +126,7 @@ export default function Login() {
                       </svg>
                     </span>
                   </div>
+                  <p className="mt-2 text-xs text-meta-1 dark:text-green-400"><span className="font-medium">{emailAlert}</span></p> 
                 </div>
                 <div className="mb-6">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
@@ -186,7 +186,7 @@ export default function Login() {
         )}
       </div>
                   </div>
-                  
+                  <p className="mt-2 text-xs text-meta-1 dark:text-green-400"><span className="font-medium">{passwordAlert}</span></p> 
                 </div>
                 <div className="mb-5">
                 <LoadingButton
