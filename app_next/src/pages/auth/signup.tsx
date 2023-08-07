@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { signup } from "@/hooks/useAuth";
 import LoadingButton from "@/components/LoadingButton";
 
-
 export default function Signup() {
   const [firstName, setFirstName] = useState<string>("");
   const [middleName, setMiddleName] = useState<string>("");
@@ -20,77 +19,15 @@ export default function Signup() {
   const [isPasswordCorfimationVisible, setIsPasswordConfirmationVisible] = useState<boolean>(false)
 
   const [firstNameAlert, setFirstNameAlert] = useState<string>("");
-  const [middleNameAlert, setMiddleNameAlert] = useState<string>("");
   const [lastNameAlert, setLastNameAlert] = useState<string>("");
   const [emailAlert, setEmailAlert] = useState<string>("");
   const [passwordAlert, setPasswordAlert ] = useState<string>(""); 
   const [passwordConfirmationAlert, setPasswordConfirmationAlert] = useState<string>("")
 
-  const [isFirstNameErr, setIsFirstNameErr] = useState<boolean>(false);
-  const [isLastNameErr, setIsLastNameErr] = useState<boolean>(false);
-  const [isEmailErr, setIsEmailErr] = useState<boolean>(false);
-  const [isPasswordErr, setIsPasswordErr] = useState<boolean>(false);
-  const [isPassworConfirmationErr, setIsPasswordConfirmationErr] = useState<boolean>(false);
-  
   const togglePassword = () => {
     setIsPasswordVisible(!isPasswordVisible)
   }
-
-  const validator = ()=>{
-    if(firstNameAlert!==undefined){
-      if(firstNameAlert===""){
-        setIsFirstNameErr(false)
-      }else{
-        setIsFirstNameErr(true)
-      }
-    }else{
-      setIsFirstNameErr(false)
-    }
-    if(lastNameAlert!==undefined){
-      if(lastNameAlert===""){
-        setIsLastNameErr(false)
-      }else{
-        setIsLastNameErr(true)
-      }
-    }else{
-      setIsLastNameErr(false)
-    }
-    if(emailAlert!==undefined){
-      if(emailAlert===""){
-        setIsEmailErr(false)
-      }else{
-        setIsEmailErr(true)
-      }
-    }else{
-      setIsEmailErr(false)
-    }
-    if(passwordAlert!==undefined){
-      if(passwordAlert===""){
-        setIsPasswordErr(false)
-      }else{
-        setIsPasswordErr(true)
-      }
-    }else{
-      setIsPasswordErr(false)
-    }
-  }
-
-  useEffect(()=>{
-      validator()
-  }, [firstNameAlert])
-
-  useEffect(()=>{
-    validator()
-  }, [lastNameAlert])
-
-  useEffect(()=>{
-    validator()
-  }, [emailAlert])
-
-  useEffect(()=>{
-    validator()
-  }, [passwordAlert])
-
+ 
   const togglePasswordConfirmation = () => {
     setIsPasswordConfirmationVisible(!isPasswordCorfimationVisible)
   }
@@ -104,7 +41,6 @@ export default function Signup() {
         setLastNameAlert(lastNameMessage)
         setEmailAlert(emailMessage)
         setPasswordAlert(passwordMessage)
-
       } catch (err) {
         console.log(err)
       } finally {
@@ -112,7 +48,6 @@ export default function Signup() {
       }
   }
 
-  console.log(isFirstNameErr)
   return (
     <>
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -125,19 +60,17 @@ export default function Signup() {
               </Link>
             </div>
           </div>
-
           <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
               <span className="mb-1.5 block font-medium">Start for free</span>
               <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
                 Sign Up
               </h2>
-
               <form onSubmit={handleSignup}>
-                <div className="grid grid-flow-col justify-stretch">
-
+                
                   {/* FirstName------------------------------------------------------------------------------ */}
 
+                  <div className="grid grid-flow-col justify-stretch">
                   <div className="mb-4">
                     <div className="relative">
                       <input
@@ -169,7 +102,7 @@ export default function Signup() {
                         </svg>
                       </span>
                     </div>
-                    {isFirstNameErr ? <p className="mt-2 text-xs text-meta-1 dark:text-green-400"><span className="font-medium">Snap! </span>{firstNameAlert}</p> : <></>}
+                     <p className="mt-2 text-xs text-meta-1 dark:text-green-400"><span className="font-medium">{firstNameAlert}</span></p> 
                   </div>
 
                   {/* MiddleName------------------------------------------------------------------------------ */}
@@ -242,7 +175,7 @@ export default function Signup() {
                       </svg>
                     </span>
                   </div>
-                  {isLastNameErr? <p className="mt-2 text-xs text-meta-1 dark:text-green-400"><span className="font-medium">Snap! </span>{lastNameAlert}</p>: <></>}
+                 <p className="mt-2 text-xs text-meta-1 dark:text-green-400"><span className="font-medium">{lastNameAlert}</span></p>
                 </div>
 
                 {/* Email------------------------------------------------------------------------------ */}
@@ -274,16 +207,12 @@ export default function Signup() {
                       </svg>
                     </span>
                   </div>
-                  {isEmailErr ? <p className="mt-2 text-xs text-meta-1 dark:text-green-400"><span className="font-medium">Well done!</span>{emailAlert}</p>: <></>}
+                  <p className="mt-2 text-xs text-meta-1 dark:text-green-400"><span className="font-medium">{emailAlert}</span></p>
                 </div>
-
-         
-
-
-                <div className="grid grid-flow-col justify-stretch">
-
+            
                   {/* Password------------------------------------------------------------------------------ */}
 
+                  <div className="grid grid-flow-col justify-stretch">
                   <div className="mb-4">
                     <div className="relative">
                       <input
@@ -335,7 +264,7 @@ export default function Signup() {
                         )}
                       </div>
                     </div>
-                    {isPasswordErr ? <p className="mt-2 text-xs text-meta-1 dark:text-green-400"><span className="font-medium">Snap !</span>{passwordAlert}</p>: <></>}
+                    <p className="mt-2 text-xs text-meta-1 dark:text-green-400"><span className="font-medium">{passwordAlert}</span></p>
                   </div>
 
                   {/* Password Confirmation------------------------------------------------------------------------------ */}
@@ -391,7 +320,7 @@ export default function Signup() {
                         )}
                       </div>
                     </div>
-                    {isPassworConfirmationErr? <p className="mt-2 text-xs text-green-600 dark:text-green-400"><span className="font-medium">Snap !</span>{passwordConfirmationAlert}</p>: <></>}
+                    <p className="mt-2 text-xs text-green-600 dark:text-green-400"><span className="font-medium">{passwordConfirmationAlert}</span></p>
                   </div>
                 </div>
 
