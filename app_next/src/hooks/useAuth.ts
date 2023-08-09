@@ -1,6 +1,7 @@
 import appNext from '@/../axiosConfig';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { data } from 'autoprefixer';
 
 export const signup = async (firstName: string, middleName: string, lastName: string, email: string, password: string, password_confirmation: string): Promise<{message: string}> =>{
   try{
@@ -13,15 +14,16 @@ export const signup = async (firstName: string, middleName: string, lastName: st
   }
 };
 
-export const login = async (email: string, password: string): Promise<{token: null | string, message: string }> => {
+export const login = async (email: string, password: string): Promise<{token: null | string, message: string, emailMessage: any, passwordMessage: any}> => {
   try {
     const response = await appNext.post('/api/auth/login', { email, password });
     const { token, message } = response.data;
     localStorage.setItem('token', token );
-    return { token, message};
+    return { token, message, emailMessage:"", passwordMessage: ""};
   } catch (error: any) {
     const message = typeof error === 'string' ? error : error?.response?.data.message || "An error occured";
-    return {token: null, message: message}
+    const { email, password } = typeof error?.response?.data.data === 'object' ?  error?.response?.data.data :  error?.response?.data.data ||"An error occured";
+    return {token: null, message: message, emailMessage: email, passwordMessage: password}
   }
   
 };
