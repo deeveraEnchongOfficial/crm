@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { getInventories } from "@/hooks/useInventories";
 import Pagination from "@/components/Pagination";
-import { deleteInventoryItem } from "@/hooks/useInventory";
+import { deleteInventoryItem } from "@/hooks/useInventories";
 interface Transaction {
   id: number;
   itemName: string;
