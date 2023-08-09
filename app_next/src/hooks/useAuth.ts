@@ -26,6 +26,19 @@ export const login = async (email: string, password: string): Promise<{token: nu
   
 };
 
+export const deleteInventoryItem = async(inventory: number): Promise<any> =>{
+  const token = getToken();
+  try{
+    await appNext.delete(`api/inventories/${inventory}`, {
+      headers:{
+        Authorization: `Bearer ${token}`
+      }
+    });
+  }catch(err){
+    console.log(err)
+  }
+}
+
 export const logout = async (): Promise<any>=> {
   const token = getToken();
   try{
