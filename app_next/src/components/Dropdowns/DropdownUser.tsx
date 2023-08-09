@@ -23,14 +23,13 @@ const DropdownUser = () => {
   const dropdown = useRef<any>(null);
   const [firstname, setFirstname] = useState<string>("")
   const [lastname, setLastname] = useState<string>("")
-  const [role, setRole] = useState(0)
   useEffect(() => {
     getOwner()
       .then((data) => {
         const{firstName, lastName, role} = data.user;
         setFirstname(firstName); 
         setLastname(lastName);
-        setRole(role)
+        
       })
       .catch((error) => {
         console.error("Failed to get User:", error);
@@ -87,7 +86,7 @@ const DropdownUser = () => {
           <span className="block text-sm font-medium text-black dark:text-white">
             {firstname}
           </span>
-          <span className="block text-xs">{ role === 0 ? "User" : "Admin" }</span>
+          <span className="block text-xs">{ user?.role === 0 ? "User" : "Admin" }</span>
         </span>
 
         <span className="w-12 h-12 rounded-full">
