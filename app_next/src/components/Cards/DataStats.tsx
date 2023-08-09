@@ -1,4 +1,4 @@
-import { ArrowUpIcon,ArrowDownIcon } from '@heroicons/react/24/solid';
+import { ArrowUpIcon, ArrowDownIcon } from '@heroicons/react/24/solid';
 
 const DataStats = () => {
   return (

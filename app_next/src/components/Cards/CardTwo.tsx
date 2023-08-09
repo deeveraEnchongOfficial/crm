@@ -1,4 +1,4 @@
-import { ArrowUpIcon,ShoppingCartIcon } from '@heroicons/react/24/solid';
+import { ArrowUpIcon, ShoppingCartIcon } from '@heroicons/react/24/solid';
 
 
 
