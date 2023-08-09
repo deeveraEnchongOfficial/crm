@@ -6,7 +6,6 @@ import { useState } from "react";
 import { signup } from "@/hooks/useAuth";
 import LoadingButton from "@/components/LoadingButton";
 
-
 export default function Signup() {
   const [firstName, setFirstName] = useState<string>("");
   const [middleName, setMiddleName] = useState<string>("");
