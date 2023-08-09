@@ -35,6 +35,19 @@ export const getInventories = async (search?: string, currentPage?: number, perP
     }
 };
 
+export const deleteInventoryItem = async(inventory: number): Promise<any> =>{
+  const token = getToken();
+  try{
+    await appNext.delete(`api/inventories/${inventory}`, {
+      headers:{
+        Authorization: `Bearer ${token}`
+      }
+    });
+  }catch(err){
+    console.log(err)
+  }
+}
+
 export const getInventoryById = async (id: number): Promise<any> => {  
     const token = getToken();
     try {
