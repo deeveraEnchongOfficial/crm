@@ -1,4 +1,5 @@
 import Breadcrumb from '@/components/Breadcrumb';
+import LoadingButton from "@/components/LoadingButton";
 
 const TableInventoryNew = () => {
 
@@ -113,6 +114,15 @@ const TableInventoryNew = () => {
               </div>
             </div>
           </div>
+          <div className="mb-2">
+                <LoadingButton
+                  isLoading={false}
+                  onClick={handleCreate}
+                  className="w-1/4 p-4 text-white transition border rounded-lg cursor-pointer border-primary bg-primary hover:bg-opacity-90"
+                  >
+                  Create New Item
+                </LoadingButton>
+            </div>
         </form>
       </div>
     </>
