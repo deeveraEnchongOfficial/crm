@@ -18,7 +18,7 @@ export default function Login() {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const togglePassword = () =>{
+  const togglePassword = () => {
     setIsPasswordVisible(!isPasswordVisible);
   }
 
@@ -28,7 +28,7 @@ export default function Login() {
       setIsLoading(true);
       handleToast();
       const { token, message } = await login(email, password);
-  
+
       if (token) {
         setAlertMessage(message);
         setAlertType("success");
@@ -92,57 +92,58 @@ export default function Login() {
               </h2>
               <form onSubmit={handleLogin}>
                 <div className="mb-4">
-                  <label className="mb-2.5 block font-medium text-black dark:text-white">
-                    Email
-                  </label>
                   <div className="relative">
                     <input
-                      type="email"
-                      id="email"
+                      type="text" id="outlined_success" aria-describedby="outlined_success_help"
+                      className="block px-2.5 pb-2.5 pt-4 py-4 w-full text-xl text-gray-900 bg-transparent rounded-lg border-2 border-green-600 appearance-none dark:text-white dark:border-green-500 dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600 peer"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      placeholder="Enter your email"
-                      className="w-full py-4 pl-6 pr-10 bg-transparent border rounded-lg outline-none border-stroke focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                      placeholder=""
                     />
+                    <label className="absolute text-sm text-green-600 dark:text-green-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-3">Email</label>
                     <span className="absolute right-4 top-4">
-                    <EnvelopeIcon className="h-6 w-6 text-gray-500" />
+                      <EnvelopeIcon className="h-6 w-6 text-gray-500" />
                     </span>
                   </div>
                 </div>
                 <div className="mb-6">
-                  <label className="mb-2.5 block font-medium text-black dark:text-white">
-                    Enter Password
-                  </label>
                   <div className="relative">
-                    <input
-                      type={isPasswordVisible ? "text" : "password"}
+                    {/* <input
+                      
                       id="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      
                       placeholder="6+ Characters, 1 Capital letter"
                       className="w-full py-4 pl-6 pr-10 bg-transparent border rounded-lg outline-none border-stroke focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
+                     */}
+                    <input
+                      type={isPasswordVisible ? "text" : "password"}
+                      className="block px-2.5 pb-2.5 pt-4 py-4 w-full text-xl text-gray-900 bg-transparent rounded-lg border-2 border-green-600 appearance-none dark:text-white dark:border-green-500 dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600 peer"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder=""
+                    />
+                    <label className="absolute text-sm text-green-600 dark:text-green-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-3">Password</label>
                     <div
-        className="absolute inset-y-0 right-0 flex items-center px-4 text-gray-600"
-        onClick={togglePassword}
-      >
-        {isPasswordVisible ? (
-          <EyeIcon className="h-6 w-6 text-gray-500" />
-        ) : (
-          <EyeSlashIcon className="h-6 w-6 text-gray-500" />
-        )}
-      </div>
+                      className="absolute inset-y-0 right-0 flex items-center px-4 text-gray-600"
+                      onClick={togglePassword}
+                    >
+                      {isPasswordVisible ? (
+                        <EyeIcon className="h-6 w-6 text-gray-500" />
+                      ) : (
+                        <EyeSlashIcon className="h-6 w-6 text-gray-500" />
+                      )}
+                    </div>
                   </div>
-                  
                 </div>
                 <div className="mb-5">
-                <LoadingButton
-                  isLoading={isLoading}
-                  onClick={handleLogin}
-                  className="w-full p-4 text-white transition border rounded-lg cursor-pointer border-primary bg-primary hover:bg-opacity-90"
+                  <LoadingButton
+                    isLoading={isLoading}
+                    onClick={handleLogin}
+                    className="w-full p-4 text-white transition border rounded-lg cursor-pointer border-primary bg-primary hover:bg-opacity-90"
                   >
-                  Sign In
-                </LoadingButton>
+                    Sign In
+                  </LoadingButton>
                 </div>
                 <div className="mt-6 text-center">
                   <p>
