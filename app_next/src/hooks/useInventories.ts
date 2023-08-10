@@ -1,4 +1,4 @@
-hiimport appNext from '@/../axiosConfig';
+import appNext from '@/../axiosConfig';
 import { getToken } from '@/hooks/useAuth';
 
 export const getInventories = async (search?: string, currentPage?: number, perPage?: number): Promise<any> => {  
