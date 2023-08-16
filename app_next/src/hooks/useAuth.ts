@@ -2,16 +2,20 @@ import appNext from '@/../axiosConfig';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
-export const signup = async (firstName: string, middleName: string, lastName: string, email: string, password: string, password_confirmation: string): Promise<{message: string}> =>{
+export const signup = async (firstName: string, middleName: string, lastName: string, email: string, password: string, password_confirmation: string): Promise<{message: string, firstNameMessage: string | any, lastNameMessage: string | any,
+  emailMessage: string | any,  passwordMessage: string |any, passwordConfirmationMessage: string |any}>  =>{
   try{
     const response = await appNext.post('api/auth/register', { firstName, middleName, lastName, email, password, password_confirmation });
     const { message } = response.data;
-    return { message };
+    return { message, firstNameMessage: "", lastNameMessage: "", emailMessage: "", passwordMessage: "",passwordConfirmationMessage: ""};
   } catch(error: any){
-    const message = typeof error === 'string' ? error : error?.response?.data.message || "An error occured";
-    return { message: message }
+    const { message } = typeof error === 'string' ? error : error?.response?.data.message || "An error occured";
+    let { firstName, lastName, email, password } = typeof error?.response?.data.data === 'object' ? error?.response?.data.data : error?.response?.data.data || "An error occured";
+    password = password[0]
+    let passwordConfirmation = password[1]
+    return { message: message, firstNameMessage: firstName, lastNameMessage:lastName, emailMessage: email, passwordMessage: password, passwordConfirmationMessage: passwordConfirmation }
   }
-};
+}
 
 export const login = async (email: string, password: string): Promise<{token: null | string, message: string }> => {
   try {
